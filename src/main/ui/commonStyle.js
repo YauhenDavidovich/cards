@@ -1,6 +1,19 @@
 import styled from 'styled-components';
 import React from "react";
 
+export const H3 = styled.h3`
+  font-size: 21px;
+  text-align: center;
+  color: #5c5c5c;
+`;
+
+export const Span = styled.p`
+    //font-size: ${props => props.sizze==="little" ? "15px" : "18px"};
+  font-size: 15px;
+  text-align: center;
+  color: #898989;
+`;
+
 export const BlockWrapper = styled.div`
     margin-bottom: 20px;
     width: 100%;
