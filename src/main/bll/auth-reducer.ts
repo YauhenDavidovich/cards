@@ -1,22 +1,30 @@
 import {InferActionTypes} from "./store";
 
-export type AuthType = {
-    userId: number | null
-    email: string | null
-    login: string | null
+type AuthType = {
+    idUser: string
+    email: string
+    login: string
     isAuth: boolean | null
 }
 
 let initialState: AuthType = {
-    userId: null,
-    email: null,
-    login: null,
+    idUser: '',
+    email: '',
+    login: '',
     isAuth: false
 };
 
+type AuthorizationResponseType = {
+    data: {
+        data: AuthType
+    }
+    resultCode: number;
+    messages: Array<string>;
+}
+
 type InitialStateType = typeof initialState;
 
-export const authReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
+const authReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
         case "LOGIN":
             return {

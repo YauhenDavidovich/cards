@@ -1,7 +1,7 @@
 import React from 'react';
 import {MainContainer, MainWrapper} from './mainStyle';
 import {Route} from "react-router-dom";
-import Login from "../../../features/01-auth/login/Login";
+import LoginForm from "../../../features/01-auth/login/LoginForm";
 import SignIn from "../../../features/01-auth/registration/SignIn";
 import RecoveryPassword from "../../../features/01-auth/recoveryPass/RecoveryPass";
 import Profile from "../../../features/01-auth/profile/Profile";
@@ -15,7 +15,7 @@ const Main = () => {
         <MainWrapper>
             <MainContainer>
                 <Route path='/signup' component={SignIn}/>
-                <Route path='/login' component={Login}/>
+                <Route path='/login' component={LoginForm}/>
                 <Route path='/recoveryPassword' component={RecoveryPassword}/>
                 <Route path='/newPassword' component={NewPassword}/>
                 <Route path='/profile' component={Profile}/>

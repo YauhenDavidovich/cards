@@ -1,9 +1,9 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunk from 'redux-thunk';
-import {authReducer} from "./auth-reducer";
+import {loginReducer} from "../../features/01-auth/login/login-reducer";
 
 const rootReducer = combineReducers({
-    auth: authReducer,
+    login:loginReducer
 });
 
 export type AppStateType = ReturnType<typeof rootReducer>
