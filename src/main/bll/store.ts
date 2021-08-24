@@ -4,6 +4,8 @@ import {authReducer} from "./auth-reducer";
 
 const rootReducer = combineReducers({
     auth: authReducer,
+    changePassword: changePasswordReducer
+
 });
 
 export type AppStateType = ReturnType<typeof rootReducer>
