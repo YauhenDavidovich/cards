@@ -22,6 +22,13 @@ const ForgotPassword: React.FC<ForgotProps> = () => {
             alert(JSON.stringify(values, null, 2));
         },
     });
+
+    const redirectToLogin = () => {
+        debugger;
+        console.log("What is the problem?")
+        return <Redirect from={'/forgotPassword'} to={'/login'}/>
+    }
+
     return <Container maxWidth="lg" style={{background: "linear-gradient(45deg, white, blue)", height: "50vh"}}>
         <Grid container direction={"column"} justifyContent={"center"} alignItems="center" spacing={3}>
             <Grid item xs={4}>
@@ -43,13 +50,12 @@ const ForgotPassword: React.FC<ForgotProps> = () => {
                         />
                     </Box>
                     <Button variant="contained" color="primary" type="submit"
-                            style={{marginTop: "20px", width: "100%"}}>Submit</Button>
+                            style={{marginTop: "20px", width: "100%"}}>Send</Button>
                 </form>
 
                     <Button variant={"outlined"} color={"primary"}
                             style={{border: "1px solid blue", background: "linear-gradient(45deg, orange, pink)", marginTop: "30px", width: "100%"}}
-                            onClick={() => <Redirect to={'/login'}/>}>
-                        Login
+                            onClick={redirectToLogin}>Login
                     </Button>
 
             </Grid>
@@ -57,4 +63,6 @@ const ForgotPassword: React.FC<ForgotProps> = () => {
     </Container>
 };
 
+
 export default ForgotPassword;
+
