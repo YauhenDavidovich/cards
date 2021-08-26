@@ -1,15 +1,5 @@
-import {InferActionTypes} from "../../../main/bll/store";
-import {authAPI} from "../../../main/dll/api";
+import {authAPI, InitialStateType} from "../../../main/dll/api";
 import {Dispatch} from "redux";
-
-
-type InitialStateType = {
-    email: string,
-    login: string,
-    idUser: string,
-    isAuth: boolean
-}
-
 
 let initialState = {
     email: "",
@@ -19,7 +9,7 @@ let initialState = {
 };
 
 
-export const loginReducer = (state = initialState, action: ActionsType): InitialStateType => {
+export const loginReducer = (state = initialState, action: ActionsTypeLogin): InitialStateType => {
     debugger
     switch (action.type) {
         case "SET-IS-LOGGED-IN":
@@ -40,11 +30,11 @@ export const setAuthUserData = (email: string, isAuth: boolean) =>
     ({type: "SET-IS-LOGGED-IN", email, isAuth} as const)
 
 // thunks
-export const loginTC = (email: string, password: string, rememberMe: boolean) => (dispatch: Dispatch<ActionsType>) => {
+export const loginTC = (email: string, password: string, rememberMe: boolean) => async(dispatch: Dispatch<ActionsTypeLogin>) => {
 
     authAPI.login(email, password, rememberMe)
         .then(res => {
-                dispatch(setAuthUserData(res.email,true))
+                dispatch(setAuthUserData(res.data.email,true))
             }
         )
         .catch((e) => {
@@ -56,4 +46,4 @@ export const loginTC = (email: string, password: string, rememberMe: boolean) =>
 }
 
 
-type ActionsType = ReturnType<typeof setAuthUserData>
+type ActionsTypeLogin = ReturnType<typeof setAuthUserData>
