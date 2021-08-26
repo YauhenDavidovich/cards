@@ -10,6 +10,10 @@ type ResponseType = {
     messages: Array<string>;
 }
 
+type RegisterType = {
+    error?: string
+}
+
 const instance = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.0"
     // withCredentials: true,
@@ -17,6 +21,10 @@ const instance = axios.create({
 });
 
 export const authAPI = {
+    me(){
+        return instance.post<ResponseType>('/auth/me')
+            .then(response => response.data)
+    },
     login(email:string, password:string) {
         return instance.post<ResponseType>(`auth/login`, {email, password})
             .then(response => response.data)
@@ -24,5 +32,10 @@ export const authAPI = {
     logout() {
         return instance.delete<ResponseType>(`auth/login`)
             .then(response => response.data)
+    },
+    register(email:string, password: string) {
+        return instance.post('/auth/register', {email,password})
+            .then(response => response.data)
     }
+
 };
