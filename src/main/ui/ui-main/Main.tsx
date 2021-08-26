@@ -1,7 +1,7 @@
 import React from 'react';
 import {MainContainer, MainWrapper} from './mainStyle';
 import {Route} from "react-router-dom";
-import LoginForm from "../../../features/01-auth/login/LoginForm";
+import Login from "../../../features/01-auth/login/Login";
 import SignIn from "../../../features/01-auth/registration/SignIn";
 import RecoveryPassword from "../../../features/01-auth/recoveryPass/RecoveryPass";
 import Profile from "../../../features/01-auth/profile/Profile";
@@ -14,13 +14,17 @@ const Main = () => {
     return (
         <MainWrapper>
             <MainContainer>
-                <Route path='/signup' component={SignIn}/>
-                <Route path='/login' component={LoginForm}/>
-                <Route path='/recoveryPassword' component={RecoveryPassword}/>
-                <Route path='/newPassword' component={NewPassword}/>
-                <Route path='/profile' component={Profile}/>
-                <Route path='/404' component={NotFound}/>
-                <Route path='/test' component={TestingSuperComponents}/>
+                <Switch>
+                    <Route path='/signup' render={() => <SignInContainer/>}/>
+                    <Route path='/login' component={Login}/>
+                    <Route path='/recoveryPassword' component={RecoveryPassword}/>
+                    <Route path='/newPassword' component={NewPassword}/>
+                    <Route path='/profile' component={Profile}/>
+                    <Route path='/404' component={NotFound}/>
+                    <Route path='/test' component={TestingSuperComponents}/>
+
+                </Switch>
+
             </MainContainer>
         </MainWrapper>
     )

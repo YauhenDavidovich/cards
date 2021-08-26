@@ -1,17 +1,13 @@
 import axios from "axios";
+import {AuthType} from "../bll/auth-reducer";
+
 
 type ResponseType = {
-    _id: string
-    email: string
-    name: string
-    avatar?: string
-    publicCardPacksCount: number
-    created: Date
-    updated: Date
-    isAdmin: boolean
-    verified: boolean
-    rememberMe: boolean
-    error?: string;
+    data: {
+        data: AuthType
+    }
+    resultCode: number;
+    messages: Array<string>;
 }
 
 const instance = axios.create({
@@ -21,7 +17,21 @@ const instance = axios.create({
 export const authAPI = {
     login(email: string, password: string, rememberMe: boolean) {
         return instance.post<ResponseType>(`auth/login`, {email, password, rememberMe})
+    me(){
+        return instance.post<ResponseType>('/auth/me')
             .then(response => response.data)
     },
-};
+    login(email:string, password:string) {
+        return instance.post<ResponseType>(`auth/login`, {email, password})
+            .then(response => response.data)
+    },
+    logout() {
+        return instance.delete<ResponseType>(`auth/login`)
+            .then(response => response.data)
+    },
+    register(email:string, password: string) {
+        return instance.post('/auth/register', {email,password})
+            .then(response => response.data)
+    }
 
+};

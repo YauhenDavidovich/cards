@@ -1,13 +1,64 @@
 import React from 'react';
-import {H3, Span} from "../../../main/ui/commonStyle";
+import {FormikProps} from "formik";
+import {RegistrationInitValueType} from "./SignInContainer";
+import style from './SignIn.module.css'
+import {Button} from "../../../main/ui/commonStyle";
 
-const SignIn = () => {
+
+
+
+type RegistrationPropsType = {
+    formik: FormikProps<RegistrationInitValueType>
+
+
+}
+
+export const SignIn: React.FC<RegistrationPropsType> = ({formik}) => {
     return (
         <div>
-            <H3>Create a account</H3>
-            <Span>Already have an account?</Span>
+            <form onSubmit={formik.handleSubmit}/>
+            <h2>Sign Up</h2>
+            <div className={style.register}>
+                <div className={style.email}>
+                    <h2>Email</h2>
+                    <input type='email'
+                           {...formik.getFieldProps('email')}/>
+
+                </div>
+                {formik.touched.email && formik.errors.email &&
+                <div style={{color: 'red'}}>{formik.errors.email}</div>}
+                <div className={style.password}>
+                    <h3>Password</h3>
+                    <input type='password'
+                        {...formik.getFieldProps('password')}/>
+                </div>
+                {formik.touched.password && formik.errors.password &&
+                <div style={{color: 'red'}}>{formik.errors.password}</div>}
+
+                <h3>Confirm Password</h3>
+                <div>
+                    <input type='confirm password'
+                           {...formik.getFieldProps('confirm password')}/>
+                </div>
+                {formik.touched.confirmPassword && formik.errors.confirmPassword &&
+                <div style={{color: 'red'}}>{formik.errors.confirmPassword}</div>}
+                <div>
+                    <Button onClick={() => formik.resetForm()} style={{color:'grey'}}>Cancel</Button>
+                    <Button>Register</Button>
+                </div>
+
+
+
+
+            </div>
+
+
+
+
         </div>
+
+
     )
 }
 
-export default SignIn;
+
