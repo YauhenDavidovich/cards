@@ -54,7 +54,7 @@ export const Login = () => {
             <input
                 id="email"
                 name="email"
-                type="text"
+                type="email"
                 onChange={formik.handleChange}
                 value={formik.values.email}
             />
@@ -62,7 +62,7 @@ export const Login = () => {
             <input
                 id="password"
                 name="password"
-                type="text"
+                type="password"
                 onChange={formik.handleChange}
                 value={formik.values.password}
             />
