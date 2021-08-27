@@ -1,4 +1,5 @@
-.register {
-    height: 20px;
-    width: 200px;
+.button {
+    display: flex;
+    padding: 20px;
+    margin-left: 10px;
 }

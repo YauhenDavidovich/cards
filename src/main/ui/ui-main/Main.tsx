@@ -14,7 +14,7 @@ const Main = () => {
     return (
         <MainWrapper>
             <MainContainer>
-                <Switch>
+
                     <Route path='/signup' render={() => <SignInContainer/>}/>
                     <Route path='/login' component={Login}/>
                     <Route path='/recoveryPassword' component={RecoveryPassword}/>
@@ -22,7 +22,7 @@ const Main = () => {
                     <Route path='/profile' component={Profile}/>
                     <Route path='/404' component={NotFound}/>
                     <Route path='/test' component={TestingSuperComponents}/>
-                </Switch>
+
             </MainContainer>
         </MainWrapper>
     )

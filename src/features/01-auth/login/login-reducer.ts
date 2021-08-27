@@ -10,7 +10,6 @@ let initialState = {
 
 
 export const loginReducer = (state = initialState, action: ActionsTypeLogin): InitialStateType => {
-    debugger
     switch (action.type) {
         case "SET-IS-LOGGED-IN":
             return {

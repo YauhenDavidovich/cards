@@ -4,6 +4,7 @@ import {AppStateType} from "../../../main/bll/store";
 import {useFormik} from "formik";
 import {onRegistrationTS} from "../../../main/bll/auth-reducer";
 import {SignIn} from "./SignIn";
+import {Redirect} from "react-router-dom";
 
 
 
@@ -59,9 +60,9 @@ export const SignInContainer: React.FC = () => {
         },
     })
 
-    /*if (isRegistered) {
-        return <Redirect to={"/login"} />
-    }*/
+    // if (isRegistered) {
+    //     return <Redirect to={"/login"} />
+    // }
     return (
         <div>
             <SignIn formik={formik}/>
