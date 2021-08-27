@@ -23,7 +23,7 @@ type FormikErrorType = {
 const NewPassword: React.FC<NewPasswordProps> = () => {
 
     //recovery password state
-    const status = useSelector<AppStateType, RequestStatusType>(state => state.newPassword.status);
+    const newPasswordStatus = useSelector<AppStateType, RequestStatusType>(state => state.newPassword.status);
     const isNewPasswordSet = useSelector<AppStateType, boolean>(state => state.newPassword.isNewPasswordSet);
     const dispatch = useDispatch();
 
@@ -95,9 +95,11 @@ const NewPassword: React.FC<NewPasswordProps> = () => {
 
                     {formik.errors.confirmPassword ? <div style={{"color":"red"}}>{formik.errors.confirmPassword}</div> : null}
                     </Box>
-                    {status === "loading" && <LinearProgress color={"secondary"}/>}
+                    {newPasswordStatus === "loading" && <LinearProgress color={"secondary"}/>}
                     <Button variant="contained" color="primary" type="submit"
-                            style={{marginTop: "20px", width: "100%"}}>Set password</Button>
+                            style={{marginTop: "20px", width: "100%"}}
+                            disabled={newPasswordStatus === "loading"}
+                    >Set password</Button>
                 </form>
 
                 <Button variant={"outlined"} color={"primary"}

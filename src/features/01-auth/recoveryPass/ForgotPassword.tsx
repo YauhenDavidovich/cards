@@ -18,9 +18,8 @@ type ForgotProps = {}
 const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
 
     //ForgotPassword component state
-    const status = useSelector<AppStateType, RequestStatusType>(state => state.forgot.status);
+    const forgotStatus = useSelector<AppStateType, RequestStatusType>(state => state.forgot.status);
     const dispatch = useDispatch();
-    console.log("love");
 
     const message =
         `<div style="background-color: lime; padding: 15px">
@@ -60,11 +59,15 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
 
                         />
                     </Box>
-                    {status === "loading" && <LinearProgress color={"secondary"}/>}
+                    {forgotStatus === "loading" && <LinearProgress color={"secondary"}/>}
                     <ErrorSnackbar/>
 
-                    <Button variant="contained" color="primary" type="submit"
-                            style={{marginTop: "20px", width: "100%"}}>Send</Button>
+                    <Button variant="contained"
+                            color="primary"
+                            type="submit"
+                            style={{marginTop: "20px", width: "100%"}}
+                            disabled={forgotStatus === "loading"}
+                    >Send</Button>
                 </form>
 
                 <Button variant={"outlined"} color={"primary"}
