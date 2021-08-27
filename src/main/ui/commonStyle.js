@@ -7,6 +7,13 @@ export const H3 = styled.h3`
   color: #5c5c5c;
 `;
 
+export const H2 = styled.h2`
+  font-size: 16px;
+  text-align: center;
+  color: rgba(142,159,255,0.81);
+  cursor: pointer;  
+`;
+
 export const Span = styled.p`
     //font-size: ${props => props.sizze==="little" ? "15px" : "18px"};
   font-size: 15px;
