@@ -11,6 +11,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../../main/bll/store";
 import {RequestStatusType} from "../../../../main/bll/forgotReducer";
+import ErrorSnackbar from "./ErrorSnackBar";
 
 type ForgotProps = {}
 
@@ -40,8 +41,6 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
                                    style={{fontSize: "40px", color: "white"}}>Forgot Password</FormLabel>
                     </Box>
 
-                    {status === "loading" && <LinearProgress color={"secondary"}/>}
-
                     <Box component="span" display="block">
                         <TextField
                             variant={"outlined"}
@@ -54,6 +53,8 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
 
                         />
                     </Box>
+                    {status === "loading" && <LinearProgress color={"secondary"}/>}
+                    <ErrorSnackbar/>
                     <Button variant="contained" color="primary" type="submit"
                             style={{marginTop: "20px", width: "100%"}}>Send</Button>
                 </form>
@@ -62,6 +63,7 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
                             style={{border: "1px solid blue", background: "linear-gradient(45deg, orange, pink)", marginTop: "30px", width: "100%"}}
                             onClick={() => {history.push('/login')}}>Login
                     </Button>
+
 
             </Grid>
         </Grid>

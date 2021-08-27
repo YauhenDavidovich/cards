@@ -5,9 +5,9 @@ const instance = axios.create({
     withCredentials: true
 });
 
-export const forgotPasswordApi = {
+export const forgotApi = {
 
-    getAccessToChangePassword(data: ForgotRequestDataType) {
+    checkEmailSignedUp(data: ForgotRequestDataType) {
         return instance.post<ResponseType>('auth/forgot', data )
     },
     setNewPassword(data: NewPasswordRequestType) {
@@ -22,7 +22,7 @@ export type ForgotRequestDataType = {
 }
 
 export type ResponseType = {
-    info: string
+    info: string | null
     error: string
 }
 
