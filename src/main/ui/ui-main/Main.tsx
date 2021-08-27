@@ -13,19 +13,20 @@ import {Switch} from "react-router-dom";
 const Main = () => {
 
     return (
+        <Switch>
         <MainWrapper>
-            <MainContainer>
-                <Switch>
+            <MainContainer >
                 <Route path='/signup' component={SignIn}/>
                 <Route path='/login' render={() => <Login />}/>
-                <Route exact path='/forgotPassword' render={() => <ForgotPage />}/>
+                <Route path='/forgotPassword' render={() => <ForgotPage />}/>
                 <Route path='/newPassword' render={() => <NewPassword />}/>
                 <Route path='/profile' component={Profile}/>
                 <Route path='/404' component={NotFound}/>
                 <Route path='/test' component={TestingSuperComponents}/>
-                </Switch>
             </MainContainer>
         </MainWrapper>
+        </Switch>
+
     )
 }
 

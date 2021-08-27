@@ -6,12 +6,12 @@ import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import {Redirect} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 
 type NewPasswordProps = {}
 
 const NewPassword: React.FC<NewPasswordProps> = () => {
-    console.log('render New Password');
+let history = useHistory();
 
     const formik = useFormik({
         initialValues: {
@@ -64,7 +64,7 @@ const NewPassword: React.FC<NewPasswordProps> = () => {
                             marginTop: "30px",
                             width: "100%"
                         }}
-                        onClick={() => <Redirect to={'/login'}/>}>
+                        onClick={() => {history.push('/login')}}>
                     Login
                 </Button>
 
