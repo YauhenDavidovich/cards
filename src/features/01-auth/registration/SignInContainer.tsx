@@ -4,18 +4,13 @@ import {AppStateType} from "../../../main/bll/store";
 import {useFormik} from "formik";
 import {onRegistrationTS} from "../../../main/bll/auth-reducer";
 import {SignIn} from "./SignIn";
-import {Redirect} from "react-router-dom";
+import {FlexColumnCenter} from "../../../main/ui/commonStyle";
 
 
-
-
-export type RegistrationInitValueType  = {
+export type RegistrationInitValueType = {
     email: string,
     password: string,
     confirmPassword: string
-
-
-
 }
 
 type ErrorType = {
@@ -29,7 +24,7 @@ export const SignInContainer: React.FC = () => {
 
     const formik = useFormik<RegistrationInitValueType>({
         validate: (values) => {
-            const error: ErrorType  = {}
+            const error: ErrorType = {}
             if (!values.email) {
                 error.email = 'Required'
             } else if (
@@ -52,7 +47,7 @@ export const SignInContainer: React.FC = () => {
             confirmPassword: ''
         } as RegistrationInitValueType,
         onSubmit: values => {
-            if (values.password !== values.confirmPassword ) {
+            if (values.password !== values.confirmPassword) {
                 throw new Error('Passwords are not the same')
             }
             dispatch(onRegistrationTS(values.email, values.password));
@@ -64,11 +59,11 @@ export const SignInContainer: React.FC = () => {
     //     return <Redirect to={"/login"} />
     // }
     return (
-        <div>
+        <FlexColumnCenter>
+
             <SignIn formik={formik}/>
 
-
-        </div>
+        </FlexColumnCenter>
 
 
     )
