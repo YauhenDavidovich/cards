@@ -5,8 +5,8 @@ export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';
 
 const initialState = {
     status: 'idle' as RequestStatusType,
-    isUserSignedUp: true,
-    error: "I will finish in time" as string | null
+    isUserSignedUp: false,
+    error: null as string | null
 }
 
 export type InitialStateType = typeof initialState
@@ -35,21 +35,18 @@ export const isUserSignedUpTC = (email: string, from: string, message: string) =
     forgotApi.checkEmailSignedUp({ email, from, message })
         .then(res => {
             console.log(res.data)
-            if(res.data.error) {
-                dispatch(setForgotStatus("failed"))
-                dispatch(setErrorMessage(res.data.error))
-            } else if(res.data.info) {
-                dispatch(setForgotStatus("succeeded"))
-                dispatch(checkIsUserSignedUp(Boolean(res.data.info)))
-            } else {
-                setErrorMessage("Something went wrong")
+             if(res.data.info) {
+                 dispatch(setForgotStatus("succeeded"))
+                 dispatch(checkIsUserSignedUp(true))
+                 dispatch(setErrorMessage("Check your email please"))
+             } else {
+                dispatch(setErrorMessage("Something went wrong"))
             }
         })
         .catch(error => {
-            dispatch(setErrorMessage(error.message ? error.message :"Some error occurred!"));
+            dispatch(setErrorMessage(error.message ? error.message :"Network error occurred!"));
             dispatch(setForgotStatus("failed"))
         })
-
 }
 
 //action types

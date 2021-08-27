@@ -1,14 +1,14 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: 'https://neko-back.herokuapp.com/2.0',
-    withCredentials: true
+    baseURL: 'https://neko-back.herokuapp.com/2.0/',
+    // withCredentials: true
 });
 
 export const forgotApi = {
 
     checkEmailSignedUp(data: ForgotRequestDataType) {
-        return instance.post<ResponseType>('auth/forgot', data )
+        return instance.post<CheckEmailResponseType>('auth/forgot', data )
     },
     setNewPassword(data: NewPasswordRequestType) {
         return instance.post<ResponseType>('auth/set-new-password', data)
@@ -21,12 +21,19 @@ export type ForgotRequestDataType = {
     message: string
 }
 
-export type ResponseType = {
+export type CheckEmailResponseType = {
     info: string | null
-    error: string
+    answer: boolean
+    html: boolean
+    success: boolean
 }
 
 export type NewPasswordRequestType = {
     password: string
     resetPasswordToken: string
+}
+
+export type NewPasswordResponseType = {
+    info: string
+    error: string
 }

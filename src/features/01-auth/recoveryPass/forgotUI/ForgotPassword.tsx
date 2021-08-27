@@ -6,30 +6,37 @@ import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../../main/bll/store";
-import {RequestStatusType} from "../../../../main/bll/forgotReducer";
+import {isUserSignedUpTC, RequestStatusType} from "../../../../main/bll/forgotReducer";
 import ErrorSnackbar from "./ErrorSnackBar";
 
 type ForgotProps = {}
 
 const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
 
+    //ForgotPassword component state
     const status = useSelector<AppStateType, RequestStatusType>(state => state.forgot.status);
+    const isUserSignedUp = useSelector<AppStateType, boolean>(state => state.forgot.isUserSignedUp);
     const dispatch = useDispatch();
 
+    const message =
+        `<div style="background-color: lime; padding: 15px">
+            password recovery link:
+            <a href="http://localhost:3000/#/set-new-password/$token$">link</a> 
+          </div>`
+    //hooks
     let history = useHistory();
     const formik = useFormik({
         initialValues: {
             email: '',
         },
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+            dispatch(isUserSignedUpTC(values.email, "TatianaKedrova<Baletrot@gmail.com>", message))
         },
     });
-
 
 
     return <Container maxWidth="lg" style={{background: "linear-gradient(45deg, white, blue)", height: "50vh"}}>
@@ -54,15 +61,23 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
                         />
                     </Box>
                     {status === "loading" && <LinearProgress color={"secondary"}/>}
-                    <ErrorSnackbar/>
+                    {!isUserSignedUp && <ErrorSnackbar/>}
+
                     <Button variant="contained" color="primary" type="submit"
                             style={{marginTop: "20px", width: "100%"}}>Send</Button>
                 </form>
 
-                    <Button variant={"outlined"} color={"primary"}
-                            style={{border: "1px solid blue", background: "linear-gradient(45deg, orange, pink)", marginTop: "30px", width: "100%"}}
-                            onClick={() => {history.push('/login')}}>Login
-                    </Button>
+                <Button variant={"outlined"} color={"primary"}
+                        style={{
+                            border: "1px solid blue",
+                            background: "linear-gradient(45deg, orange, pink)",
+                            marginTop: "30px",
+                            width: "100%"
+                        }}
+                        onClick={() => {
+                            history.push('/login')
+                        }}>Login
+                </Button>
 
 
             </Grid>
