@@ -20,6 +20,7 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
     //ForgotPassword component state
     const status = useSelector<AppStateType, RequestStatusType>(state => state.forgot.status);
     const dispatch = useDispatch();
+    console.log("love");
 
     const message =
         `<div style="background-color: lime; padding: 15px">
