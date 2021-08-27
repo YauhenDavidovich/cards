@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {forgotApi} from "../dll/forgotApi";
+import {restorePasswordApi} from "../dll/restorePasswordApi";
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';
 
@@ -32,7 +32,7 @@ export const setForgotStatus = (status: RequestStatusType) => ({ type: "forgot/S
 //thunk
 export const isUserSignedUpTC = (email: string, from: string, message: string) => (dispatch: Dispatch) => {
     dispatch(setForgotStatus("loading"))
-    forgotApi.checkEmailSignedUp({ email, from, message })
+    restorePasswordApi.checkEmailSignedUp({ email, from, message })
         .then(res => {
             console.log(res.data)
              if(res.data.info) {

@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import {loginReducer} from "../../features/01-auth/login/login-reducer";
 import {authReducer} from "./auth-reducer";
 import {forgotReducer} from "./forgotReducer";
-import {setNewPasswordReducer} from "../dll/setNewPasswordReducer";
+import {setNewPasswordReducer} from "./setNewPasswordReducer";
 
 const rootReducer = combineReducers({
     auth: authReducer,

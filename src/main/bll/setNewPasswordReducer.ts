@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
-import {forgotApi} from "../dll/forgotApi";
-import {RequestStatusType} from "../bll/forgotReducer";
+import {restorePasswordApi} from "../dll/restorePasswordApi";
+import {RequestStatusType} from "./forgotReducer";
 
 const initialState = {
     status: 'idle' as RequestStatusType,
@@ -24,7 +24,7 @@ export const setNewPasswordStatus = (status: RequestStatusType) => ({ type: "new
 //thunk
 export const isUserSignedUpTC = (password: string, resetPasswordToken: string) => (dispatch: Dispatch) => {
     dispatch(setNewPasswordStatus("loading"))
-    forgotApi.setNewPassword({ password, resetPasswordToken })
+    restorePasswordApi.setNewPassword({ password, resetPasswordToken })
         .then(res => {
 
         })

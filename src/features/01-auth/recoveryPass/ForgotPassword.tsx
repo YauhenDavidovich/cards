@@ -9,8 +9,8 @@ import Button from '@material-ui/core/Button';
 import {useHistory} from "react-router-dom";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "../../../../main/bll/store";
-import {isUserSignedUpTC, RequestStatusType} from "../../../../main/bll/forgotReducer";
+import {AppStateType} from "../../../main/bll/store";
+import {isUserSignedUpTC, RequestStatusType} from "../../../main/bll/forgotReducer";
 import ErrorSnackbar from "./ErrorSnackBar";
 
 type ForgotProps = {}

@@ -5,7 +5,7 @@ import Profile from "../../../features/01-auth/profile/Profile";
 import NotFound from "../../../features/01-auth/notFound/NotFound";
 import NewPassword from "../../../features/01-auth/newPass/NewPassword";
 import TestingSuperComponents from "../../../features/01-auth/testing/TestingSuperComponents";
-import ForgotPage from "../../../features/01-auth/recoveryPass/forgotUI/ForgotPage";
+import ForgotPage from "../../../features/01-auth/recoveryPass/ForgotPage";
 import LoginForm from "../../../features/01-auth/login/LoginForm";
 import {SignInContainer} from "../../../features/01-auth/registration/SignInContainer";
 
