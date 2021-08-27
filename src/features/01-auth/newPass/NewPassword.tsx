@@ -6,48 +6,61 @@ import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import {useHistory} from 'react-router-dom';
-import {useSelector} from "react-redux";
+import {Redirect, useHistory, useParams} from 'react-router-dom';
+import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../main/bll/store";
 import {RequestStatusType} from "../../../main/bll/forgotReducer";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import {isUserSignedUpTC} from "../../../main/bll/setNewPasswordReducer";
 
 type NewPasswordProps = {}
 
 type FormikErrorType = {
-    passwordInit?: string
-    passwordRepeat?: string
+    password?: string
+    confirmPassword?: string
 }
 
 const NewPassword: React.FC<NewPasswordProps> = () => {
 
+    //recovery password state
     const status = useSelector<AppStateType, RequestStatusType>(state => state.newPassword.status);
+    const isNewPasswordSet = useSelector<AppStateType, boolean>(state => state.newPassword.isNewPasswordSet);
+    const dispatch = useDispatch();
 
+    //hooks
+    const { token } = useParams<{token: string}>();
+    console.log(token);
     let history = useHistory();
-
     const formik = useFormik({
         initialValues: {
-            passwordInit: '',
-            passwordRepeat: ''
+            password: '',
+            confirmPassword: ''
         },
         validate: (values) => {
             const errors: FormikErrorType = {};
-
-            if(!values.passwordInit) {
-                errors.passwordInit = 'Required';
-            };
-            if(!values.passwordRepeat) {
-                errors.passwordRepeat = 'Required';
-            } else if(values.passwordInit !== values.passwordRepeat) {
-                errors.passwordRepeat = "Passwords must be the same"
+            if(!values.password) {
+                errors.password = 'Required';
+            } else if(values.password.length < 8) {
+        errors.password = 'Password must be 8 characters or more';
+    }
+            if(!values.confirmPassword) {
+                errors.confirmPassword = 'Required';
+            } else if(values.password !== values.confirmPassword) {
+                errors.confirmPassword = "Passwords must be the same"
             }
             return errors;
         },
         onSubmit: values => {
             console.log(values);
-            alert(JSON.stringify(values, null, 2));
+            dispatch(isUserSignedUpTC(values.password, token));
         },
     });
+
+    if(isNewPasswordSet) {
+        return <Redirect to={'/login'} />
+    }
+
+    console.log(formik.values);
     return <Container maxWidth="lg" style={{background: "linear-gradient(45deg, white, blue)", height: "50vh"}}>
         <Grid container direction={"column"} justifyContent={"center"} alignItems="center" spacing={3}>
             <Grid item xs={4}>
@@ -68,7 +81,7 @@ const NewPassword: React.FC<NewPasswordProps> = () => {
 
                         />
                     </Box>
-                    {formik.errors.passwordInit ? <div style={{"color":"red"}}>{formik.errors.passwordInit}</div> : null}
+                    {formik.touched.password && formik.errors.password ? <div style={{"color":"red"}}>{formik.errors.password}</div> : null}
                     <Box component="span" display="block">
                         <TextField
                             variant={"outlined"}
@@ -77,10 +90,10 @@ const NewPassword: React.FC<NewPasswordProps> = () => {
                             type={"password"}
                             color={"primary"}
                             placeholder={"repeat password"}
-                            {...formik.getFieldProps("password")}
+                            {...formik.getFieldProps("confirmPassword")}
                         />
 
-                    {formik.errors.passwordInit ? <div style={{"color":"red"}}>{formik.errors.passwordInit}</div> : null}
+                    {formik.errors.confirmPassword ? <div style={{"color":"red"}}>{formik.errors.confirmPassword}</div> : null}
                     </Box>
                     {status === "loading" && <LinearProgress color={"secondary"}/>}
                     <Button variant="contained" color="primary" type="submit"

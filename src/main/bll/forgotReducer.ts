@@ -35,7 +35,7 @@ export const isUserSignedUpTC = (email: string, from: string, message: string) =
     restorePasswordApi.checkEmailSignedUp({ email, from, message })
         .then(res => {
             console.log(res.data)
-             if(res.data.info) {
+             if(res.data.success) {
                  dispatch(setForgotStatus("succeeded"))
                  dispatch(checkIsUserSignedUp(true))
                  dispatch(setErrorMessage("Check your email please"))

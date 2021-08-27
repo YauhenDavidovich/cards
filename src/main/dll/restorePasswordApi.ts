@@ -11,7 +11,7 @@ export const restorePasswordApi = {
         return instance.post<CheckEmailResponseType>('auth/forgot', data )
     },
     setNewPassword(data: NewPasswordRequestType) {
-        return instance.post<ResponseType>('auth/set-new-password', data)
+        return instance.post<NewPasswordResponseType>('auth/set-new-password', data)
     }
 }
 

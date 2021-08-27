@@ -18,7 +18,7 @@ const Main = () => {
                 <Route path='/signup' render={() => <SignInContainer/>}/>
                 <Route path='/login' render={() => <LoginForm />}/>
                 <Route path='/forgotPassword' render={() => <ForgotPage />}/>
-                <Route path='/set-new-password' render={() => <NewPassword />}/>
+                <Route path='/set-new-password/:token' render={() => <NewPassword />}/>
                 <Route path='/profile' component={Profile}/>
                 <Route path='/404' component={NotFound}/>
                 <Route path='/test' component={TestingSuperComponents}/>

@@ -19,7 +19,6 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
 
     //ForgotPassword component state
     const status = useSelector<AppStateType, RequestStatusType>(state => state.forgot.status);
-    const isUserSignedUp = useSelector<AppStateType, boolean>(state => state.forgot.isUserSignedUp);
     const dispatch = useDispatch();
 
     const message =
@@ -61,7 +60,7 @@ const ForgotPassword: React.FC<ForgotProps> = React.memo(() => {
                         />
                     </Box>
                     {status === "loading" && <LinearProgress color={"secondary"}/>}
-                    {!isUserSignedUp && <ErrorSnackbar/>}
+                    <ErrorSnackbar/>
 
                     <Button variant="contained" color="primary" type="submit"
                             style={{marginTop: "20px", width: "100%"}}>Send</Button>
