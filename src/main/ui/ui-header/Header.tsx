@@ -15,8 +15,8 @@ const Header = () => {
                 <FlexRowCenter>
                     <MenuNavLink to='/login'>Log in</MenuNavLink>
                     <MenuNavLink to="/signup">Sign up</MenuNavLink>
-                    <MenuNavLink to="/recoveryPassword">Forgot</MenuNavLink>
-                    <MenuNavLink to="/newPassword">New password</MenuNavLink>
+                    <MenuNavLink to="/forgotPassword">Forgot</MenuNavLink>
+                    <MenuNavLink to="/set-new-password">New password</MenuNavLink>
                     <MenuNavLink to="/profile">Profile</MenuNavLink>
                     <Button as={NavLink} to='/signup' color={"blue"}>Sign up</Button>
                 </FlexRowCenter>

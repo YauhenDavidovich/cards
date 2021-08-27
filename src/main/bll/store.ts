@@ -1,10 +1,14 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunk from 'redux-thunk';
 import {authReducer} from "./auth-reducer";
+import {forgotReducer} from "./forgotReducer";
+import {setNewPasswordReducer} from "../dll/setNewPasswordReducer";
 
 const rootReducer = combineReducers({
     auth: authReducer,
-    changePassword: changePasswordReducer
+    forgot: forgotReducer,
+    newPassword: setNewPasswordReducer
+
 });
 
 export type AppStateType = ReturnType<typeof rootReducer>
