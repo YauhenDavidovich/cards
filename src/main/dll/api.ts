@@ -2,27 +2,45 @@ import axios from "axios";
 import {AuthType} from "../bll/auth-reducer";
 
 
+export type InitialStateType = {
+    email: string,
+    login: string,
+    idUser: string,
+    isAuth: boolean
+}
+
 type ResponseType = {
-    data: {
-        data: AuthType
-    }
-    resultCode: number;
-    messages: Array<string>;
+    _id: string
+    email: string
+    name: string
+    avatar?: string
+    publicCardPacksCount: number
+    created: Date
+    updated: Date
+    isAdmin: boolean
+    verified: boolean
+    rememberMe: boolean
+    error?: string;
 }
 
 const instance = axios.create({
-    baseURL: "https://social-network.samuraijs.com/api/1.0"
-    // withCredentials: true,
-    // headers: {"API-KEY": "7182e7e1-cf7b-49da-8e89-52ae747000d8"}
+    baseURL: "https://neko-back.herokuapp.com/2.0"
 });
 
 export const authAPI = {
-    login(email:string, password:string) {
-        return instance.post<ResponseType>(`auth/login`, {email, password})
+    login(email: string, password: string, rememberMe: boolean) {
+        return instance.post<ResponseType>(`auth/login`, {email, password, rememberMe})},
+
+    me(){
+        return instance.post<ResponseType>('/auth/me')
             .then(response => response.data)
     },
     logout() {
         return instance.delete<ResponseType>(`auth/login`)
+            .then(response => response.data)
+    },
+    register(email:string, password: string) {
+        return instance.post('/auth/register', {email,password})
             .then(response => response.data)
     }
 };

@@ -1,8 +1,9 @@
 import React from 'react';
 import {MainContainer, MainWrapper} from './mainStyle';
 import {Route} from "react-router-dom";
-import Login from "../../../features/01-auth/login/Login";
+
 import SignIn from "../../../features/01-auth/registration/SignIn";
+import RecoveryPassword from "../../../features/01-auth/recoveryPass/RecoveryPass";
 import Profile from "../../../features/01-auth/profile/Profile";
 import NotFound from "../../../features/01-auth/notFound/NotFound";
 import NewPassword from "../../../features/01-auth/newPass/NewPassword";
@@ -16,8 +17,8 @@ const Main = () => {
         <Switch>
         <MainWrapper>
             <MainContainer >
-                <Route path='/signup' component={SignIn}/>
-                <Route path='/login' render={() => <Login />}/>
+                <Route path='/signup' render={() => <SignInContainer/>}/>
+                <Route path='/login' render={() => <LoginForm />}/>
                 <Route path='/forgotPassword' render={() => <ForgotPage />}/>
                 <Route path='/set-new-password' render={() => <NewPassword />}/>
                 <Route path='/profile' component={Profile}/>

@@ -1,37 +1,54 @@
-import {InferActionTypes} from "./store";
+import {Dispatch} from "redux";
+import {authAPI} from "../dll/api";
 
 export type AuthType = {
-    userId: number | null
-    email: string | null
-    login: string | null
+    idUser: string
+    email: string
+    login: string
     isAuth: boolean | null
+    isRegistered: boolean
 }
 
 let initialState: AuthType = {
-    userId: null,
-    email: null,
-    login: null,
-    isAuth: false
+    idUser: '',
+    email: '',
+    login: '',
+    isAuth: false,
+    isRegistered: true
 };
+
 
 type InitialStateType = typeof initialState;
 
-export const authReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
+export const authReducer = (state = initialState, action: ActionRegistrationType): InitialStateType => {
     switch (action.type) {
-        case "LOGIN":
+        case "AUTH-REDUCER/REGISTRATION":
             return {
                 ...state,
-                ...action.data
-                // isAuth: true
-            };
+                isRegistered: true
+            }
         default:
             return state;
     }
 };
 
-const actions = {
-    setAuthUserData: (userId:number, email:string, login:string) =>
-        ({type: "LOGIN", data: {userId, email, login}})
+//action
+export const onRegistration = () =>
+    ({type: 'AUTH-REDUCER/REGISTRATION'} as const)
+
+
+//thunks
+
+export const onRegistrationTS = (email: string, password: string) => async (dispatch: Dispatch<ActionRegistrationType>) => {
+    try {
+        const response = await authAPI.register(email, password)
+        dispatch(onRegistration())
+    } catch (e) {
+        if (e && email === email) {
+            dispatch(onRegistration())
+        }
+    }
 }
 
-type ActionsTypes = InferActionTypes<typeof actions>
+// type action
+type ActionRegistrationType = ReturnType<typeof onRegistration>

@@ -23,6 +23,25 @@ export const FlexRowCenter = styled.div`
     align-items: center;
     height: 100%;
 `;
+
+export const FormWrapper = styled.div`
+  form{
+    margin: 2vw 0 0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+`;
+
+
+export const FlexColumnCenter = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  
+`;
+
 export const ContainerWrapper = styled(FlexRowCenter)`
     margin: 0 auto;
     width: 1024px;
@@ -35,14 +54,13 @@ const Link = ({ className, children }) => (
 export const Button = styled.button`
     font-family: 'Arial';
     font-size: 15px;
-    padding: 13px 25px 9px;
+    padding: 13px 25px 13px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    text-decoration: none;
-    
+    text-decoration: none;    
     background: ${props => props.color==="yellow" ? "white" : "blue"};
-    color: ${props => props.color==="yellow" ? "#32cdff" : "#000"};
+    color: ${props => props.color==="yellow" ? "#32cdff" : "white"};
     text-transform: ${props => props.color==="yellow" ? "uppercase" : "normal"};
     
     &:hover {
