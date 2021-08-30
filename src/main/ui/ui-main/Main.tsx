@@ -1,6 +1,6 @@
 import React from 'react';
 import {MainContainer, MainWrapper} from './mainStyle';
-import {Route, Switch} from "react-router-dom";
+import {Redirect, Route, Switch} from "react-router-dom";
 import Profile from "../../../features/01-auth/profile/Profile";
 import NotFound from "../../../features/01-auth/notFound/NotFound";
 import NewPassword from "../../../features/01-auth/newPass/NewPassword";
@@ -19,9 +19,10 @@ const Main = () => {
                 <Route path='/login' render={() => <LoginForm />}/>
                 <Route path='/forgotPassword' render={() => <ForgotPage />}/>
                 <Route path='/set-new-password/:token' render={() => <NewPassword />}/>
-                <Route path='/profile' component={Profile}/>
+                <Route path='/profile' render={() => <Profile/>}/>
+                <Route path='/test' render={() => <TestingSuperComponents/>}/>
                 <Route path='/404' component={NotFound}/>
-                <Route path='/test' component={TestingSuperComponents}/>
+                <Redirect from={'*'} to={'/404'}/>
             </MainContainer>
         </MainWrapper>
         </Switch>

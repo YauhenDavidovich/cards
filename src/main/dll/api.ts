@@ -1,5 +1,4 @@
 import axios from "axios";
-import {AuthType} from "../bll/auth-reducer";
 
 
 export type InitialStateType = {
@@ -24,7 +23,8 @@ type ResponseType = {
 }
 
 const instance = axios.create({
-    baseURL: "https://neko-back.herokuapp.com/2.0"
+    baseURL: "https://neko-back.herokuapp.com/2.0",
+    withCredentials: true
 });
 
 export const authAPI = {

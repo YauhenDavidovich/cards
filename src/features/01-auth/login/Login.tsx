@@ -3,7 +3,7 @@ import {Redirect} from "react-router-dom";
 import {Button, FormWrapper} from "../../../main/ui/commonStyle";
 import {useFormik} from "formik";
 import {AppStateType} from "../../../main/bll/store";
-import {loginTC} from "./login-reducer";
+import {loginTC} from "../../../main/bll/login-reducer";
 
 type FormikErrorType = {
     email?: string

@@ -1,4 +1,4 @@
-import {authAPI, InitialStateType} from "../../../main/dll/api";
+import {authAPI, InitialStateType} from "../dll/api";
 import {Dispatch} from "redux";
 
 let initialState = {
