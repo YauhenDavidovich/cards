@@ -1,13 +1,14 @@
 import React from 'react';
 import {MainContainer, MainWrapper} from './mainStyle';
 import {Redirect, Route, Switch} from "react-router-dom";
-import Profile from "../../../features/01-auth/profile/Profile";
-import NotFound from "../../../features/01-auth/notFound/NotFound";
-import NewPassword from "../../../features/01-auth/newPass/NewPassword";
-import TestingSuperComponents from "../../../features/01-auth/testing/TestingSuperComponents";
-import ForgotPage from "../../../features/01-auth/recoveryPass/ForgotPage";
-import LoginForm from "../../../features/01-auth/login/LoginForm";
-import {SignInContainer} from "../../../features/01-auth/registration/SignInContainer";
+import Profile from "../../../features/components/profile/Profile";
+import NotFound from "../../../features/components/notFound/NotFound";
+import NewPassword from "../../../features/components/newPass/NewPassword";
+import TestingSuperComponents from "../../../features/components/testing/TestingSuperComponents";
+import ForgotPage from "../../../features/components/recoveryPass/ForgotPage";
+import LoginForm from "../../../features/components/login/LoginForm";
+import {SignInContainer} from "../../../features/components/registration/SignInContainer";
+import {PacksList} from "../../../features/components/packs/PacksList";
 
 const Main = () => {
 
@@ -20,9 +21,10 @@ const Main = () => {
                 <Route path='/forgotPassword' render={() => <ForgotPage />}/>
                 <Route path='/set-new-password/:token' render={() => <NewPassword />}/>
                 <Route path='/profile' render={() => <Profile/>}/>
+                <Route path='/packslist' render={() => <PacksList/>}/>
                 <Route path='/test' render={() => <TestingSuperComponents/>}/>
                 <Route path='/404' component={NotFound}/>
-                <Redirect from={'*'} to={'/404'}/>
+                {/*<Redirect from={'*'} to={'/404'}/>*/}
             </MainContainer>
         </MainWrapper>
         </Switch>

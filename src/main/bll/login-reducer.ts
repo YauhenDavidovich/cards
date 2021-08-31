@@ -28,6 +28,7 @@ export const loginReducer = (state = initialState, action: ActionsTypeLogin): In
 export const setAuthUserData = (email: string, isAuth: boolean) =>
     ({type: "SET-IS-LOGGED-IN", email, isAuth} as const)
 
+
 // thunks
 export const loginTC = (email: string, password: string, rememberMe: boolean) => async(dispatch: Dispatch<ActionsTypeLogin>) => {
 
