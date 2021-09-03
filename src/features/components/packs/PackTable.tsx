@@ -1,23 +1,30 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
+import {getPacks} from "../../../main/bll/pacsReducer";
 import {actions, deletePacks, getPacks} from "../../../main/bll/pacsReducer";
 import {AppStateType} from "../../../main/bll/store";
-import {FlexColumnCenter, FormWrapper, H3} from "../../../main/ui/commonStyle";
+import { H3} from "../../../main/ui/commonStyle";
 import MaterialTable from "material-table";
 import {IconButton} from "@material-ui/core";
 import UpdateIcon from '@material-ui/icons/Update';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
+import {Delete} from "@material-ui/icons";
+import {PackType} from "../../../main/dll/cardsPacksApi";
 
 export const PacksTable = () => {
     const dispatch = useDispatch()
-    const {cardPacksTotalCount, cardPacks, currentPage, pageSize} =
-        useSelector((store: AppStateType) => store.packsReducer)
+    const {
+        cardPacksTotalCount,
+        cardPacks,
+        pageSize
+    } = useSelector((store: AppStateType) => store.packsReducer)
 
     useEffect(() => {
         dispatch(getPacks({pageCount: 100}));
     }, [dispatch])
+
 
     let pagesCount = Math.ceil(cardPacksTotalCount / pageSize)//data for paginator -
     console.log(cardPacks)
@@ -27,17 +34,10 @@ export const PacksTable = () => {
                 {cardPacks!.length === 0 ? <H3>This user has no packs.</H3>
                     :
                     <>
-
                         <TablePacks cardPacks={cardPacks}/>
                         <p>Total count packs: {cardPacks.length}</p>
                         <p>Total count cards: {cardPacksTotalCount}</p>
                         <p>Total pages: {pagesCount}</p>
-
-                        {/*<div>*/}
-                        {/*    {cardPacks.map(pack => <div key={pack._id} {...pack}>{pack._id}</div>)}*/}
-                        {/*</div>*/}
-
-
                     </>
                 }
             </Grid>
@@ -50,6 +50,17 @@ export const PacksTable = () => {
 
 export const TablePacks = (props: any) => {
     const dispatch = useDispatch()
+
+
+export type TablePacksPropsType = {
+    cardPacks: Array<PackType>
+}
+
+export const TablePacks: React.FC<TablePacksPropsType> = ({cardPacks}) => {
+    /*const dispatch = useDispatch();
+    const deletePackItem = () => {
+        dispatch(deletePack())
+    }*/
 
 
     return (

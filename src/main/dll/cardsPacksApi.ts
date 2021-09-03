@@ -49,11 +49,27 @@ export type PacksRequestType = {
     user_id?: string
 }
 
+export type RequestAddPackType = {
+    cardsPack: {
+        name: string
+        path?: string
+        grade?: number
+        shots?: number
+        rating?: number
+        deckCover?: string
+        private?: boolean
+        type?: string
+    }
+}
+
 export const cardsPacksApi = {
     getPacks(params: PacksRequestType) {
         return instanceRemote.get<PacksResponseType>('cards/pack', {
             params: {...params}
         }).then(response => response.data);
+    },
+    addPack(packName: string) {
+        return instanceRemote.post<PacksResponseType>('cards/pack', {packName})
     },
     deletePack(packId: string) {
         return instanceRemote.delete<PacksResponseType>('cards/pack', {params: {packId}})
