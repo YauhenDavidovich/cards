@@ -28,7 +28,6 @@ const Main = () => {
             </MainContainer>
         </MainWrapper>
         </Switch>
-
     )
 }
 

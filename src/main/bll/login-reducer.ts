@@ -1,11 +1,13 @@
 import {authAPI, InitialStateType} from "../dll/api";
 import {Dispatch} from "redux";
+import {AppStateType} from "./store";
 
 let initialState = {
     email: "",
     login: "",
     idUser: "",
-    isAuth: false
+    isAuth: false,
+    // token: ''
 };
 
 
@@ -23,22 +25,25 @@ export const loginReducer = (state = initialState, action: ActionsTypeLogin): In
 };
 
 
-
 // actions
 export const setAuthUserData = (email: string, isAuth: boolean) =>
     ({type: "SET-IS-LOGGED-IN", email, isAuth} as const)
 
-
+//getState: () => AppStateType
 // thunks
-export const loginTC = (email: string, password: string, rememberMe: boolean) => async(dispatch: Dispatch<ActionsTypeLogin>) => {
-
+export const loginTC = (email: string, password: string, rememberMe: boolean) => async (dispatch: Dispatch<ActionsTypeLogin>) => {
     authAPI.login(email, password, rememberMe)
         .then(res => {
-                dispatch(setAuthUserData(res.data.email,true))
+                localStorage.setItem("token", res.data.token);
+                dispatch(setAuthUserData(res.data.email, true))
+            if(res.data.token) {
+                const token = localStorage.getItem("token");
+                console.log(token)
+            }
             }
         )
         .catch((e) => {
-            const error = e.response ? e.response.data.error: (e.message + ', more details in the console');
+            const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
             alert(error)
             console.log('Error: ', {...e})
         })

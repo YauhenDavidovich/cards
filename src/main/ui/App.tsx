@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import Header from "./ui-header/Header";
 import Main from "./ui-main/Main";
@@ -8,7 +8,9 @@ const AppWrapper = styled.div`
     `;
 
 const App = () => {
+
   return (
+
       <AppWrapper>
         <Header />
         <Main />

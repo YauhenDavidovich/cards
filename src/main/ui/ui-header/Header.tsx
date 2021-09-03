@@ -2,9 +2,11 @@ import React from 'react';
 import {HeaderContainer, HeaderWrapper, LogoImg, LogoLinkBlock, LogoText, MenuNavLink} from "./headerStyle";
 import logo from '../../../images/logo.png'
 import {FlexRowCenter, Button} from '../commonStyle';
-import {NavLink} from "react-router-dom";
+import {NavLink, useHistory} from "react-router-dom";
 
 const Header = () => {
+
+    const history = useHistory();
     return (
         <HeaderWrapper>
             <HeaderContainer>
@@ -18,7 +20,8 @@ const Header = () => {
                     <MenuNavLink to="/forgotPassword">Forgot</MenuNavLink>
                     <MenuNavLink to="/set-new-password">New password</MenuNavLink>
                     <MenuNavLink to="/profile">Profile</MenuNavLink>
-                    <Button as={NavLink} to='/signup' color={"blue"}>Sign up</Button>
+                    <MenuNavLink to="/packslist">Packs</MenuNavLink>
+                    <Button as={NavLink} to='/signup' color={"blue"} onClick={()=> history.push('/signup')}>Sign up</Button>
                 </FlexRowCenter>
             </HeaderContainer>
         </HeaderWrapper>

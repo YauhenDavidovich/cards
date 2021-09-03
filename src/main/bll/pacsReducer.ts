@@ -1,6 +1,6 @@
 
 
-let initialState = {
+let initialState = [{
     _id: "23432234",
     name: 'NewPack',
     cardsCount: 2,
@@ -15,9 +15,9 @@ let initialState = {
     type: "No_data",
     user_id: "453453453",
     user_name: "user_name",
-};
+}];
 
-export type PackType = {
+export type SinglePackType = {
     _id: string
     name: string
     cardsCount: number
@@ -34,7 +34,9 @@ export type PackType = {
     user_name: string
 }
 
-export const PacksReducer = (state = initialState, action: any): PackType => {
+export type PacksType = Array<SinglePackType>;
+
+export const packsReducer = (state: PacksType = initialState, action: any): PacksType => {
     switch (action.type) {
         case "PACKS/SET-PACKS":
             if (action.user_id) {
