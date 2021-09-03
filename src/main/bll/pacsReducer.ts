@@ -1,5 +1,6 @@
 import {cardsPacksApi, PacksRequestType, PacksResponseType, PackType} from "../dll/cardsPacksApi";
 import {AppStateType, InferActionTypes} from "./store";
+import {getCookie, setCookie} from "./cookies";
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
 
 export type PacksType = {
@@ -11,7 +12,6 @@ export type PacksType = {
     pageSize: number,
     token: string,
     tokenDeathTime: number,
-    isLoading: boolean
 }
 
 let initialState: PacksType = {
@@ -22,60 +22,50 @@ let initialState: PacksType = {
     currentPage: 0,
     pageSize: 10,
     token: '',
-    tokenDeathTime: 0,
-    isLoading: false
+    tokenDeathTime: 0
 };
 
 type InitialStateType = typeof initialState
 
 export const packsReducer = (state = initialState, action: PacksCardsActionType): InitialStateType => {
-
+    debugger
     switch (action.type) {
-        case "packs/SET-PACKS":
+
+        case "PACKS/SET-PACKS":
             return {
                 ...state,
                 ...action.packs,
                 cardPacks: action.packs.cardPacks.map(cardPack => ({...cardPack}))
             }
-        case "packs/TOGGLE_IS_LOADING":
-            return {
-                ...state, isLoading: action.isLoading
-            }
+
         default:
-            return state;
+            return state
     }
 }
 
 // actions
 export const actions = {
-    setPacks: (packs: PacksResponseType) => ({type: "packs/SET-PACKS", packs} as const),
-    toggleIsLoading: (isLoading: boolean) => ({type: "packs/TOGGLE_IS_LOADING", isLoading} as const)
+    setPacks : (packs:PacksResponseType) => ({type: "PACKS/SET-PACKS", packs} as const)
 }
 
 //thunks
 export const getPacks = (data: PacksRequestType): ThunkType => async (dispatch: ThunkActionType) => {
-    dispatch(actions.toggleIsLoading(true))
     cardsPacksApi.getPacks(data)
         .then(res => {
                 dispatch(actions.setPacks(res))
-                dispatch(actions.toggleIsLoading(false))
             }
         )
+
 };
 
-export const deletePack = (packId: string) => (dispatch: ThunkActionType) => {
-    cardsPacksApi.deletePack(packId)
+export const deletePacks = (id: string): ThunkType => async (dispatch: ThunkActionType) => {
+    cardsPacksApi.deletePack(id)
         .then(res => {
-            dispatch(getPacks(res.data))
-        })
-}
+                dispatch(actions.deletePacks(id))
+            }
+        )
 
-export const updatePack = (packId: string, name: string) => (dispatch: ThunkActionType) => {
-    cardsPacksApi.updatePack(packId, name)
-        .then(res => {
-            dispatch(getPacks(res.data))
-        })
-}
+};
 
 type ThunkType = ThunkAction<void, AppStateType, any, PacksCardsActionType>;
 type PacksCardsActionType = InferActionTypes<typeof actions>;

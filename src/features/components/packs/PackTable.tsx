@@ -1,11 +1,12 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {actions, getPacks} from "../../../main/bll/pacsReducer";
+import {actions, deletePacks, getPacks} from "../../../main/bll/pacsReducer";
 import {AppStateType} from "../../../main/bll/store";
 import {FlexColumnCenter, FormWrapper, H3} from "../../../main/ui/commonStyle";
 import MaterialTable from "material-table";
 import {IconButton} from "@material-ui/core";
-import AddBoxIcon from '@material-ui/icons/AddBox';
+import UpdateIcon from '@material-ui/icons/Update';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 
@@ -48,6 +49,9 @@ export const PacksTable = () => {
 
 
 export const TablePacks = (props: any) => {
+    const dispatch = useDispatch()
+
+
     return (
         <div style={{ maxWidth: '100%' }}>
         <MaterialTable
@@ -57,17 +61,35 @@ export const TablePacks = (props: any) => {
                 {title: 'Updated', field: 'updated'},
                 {title: 'url', field: 'url'},
                 {
-                    title: "Custom Add",
+                    title: "Delete pack",
                     field: "internal_action",
                     // editable: false,
                     render: (rowData) =>
                         rowData && (
                             <IconButton
                                 color="secondary"
-                                // onClick={}
+                                onClick={
+                                    ()=>{console.log(rowData._id)
+                                    dispatch(deletePacks(rowData._id))}
+                                }
                             >
 
-                                <AddBoxIcon/>
+                                <DeleteIcon/>
+                            </IconButton>
+                        )
+                },
+                {
+                    title: "Update pack",
+                    field: "internal_action",
+                    // editable: false,
+                    render: (rowData) =>
+                        rowData && (
+                            <IconButton
+                                color="secondary"
+                                // onClick={console.log("delete")}
+                            >
+
+                                <UpdateIcon/>
                             </IconButton>
                         )
                 }
