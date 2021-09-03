@@ -17,8 +17,8 @@ export const PacksControls = () => {
     return (
         <div>
             <div>
-                <Button>My</Button>
-                <Button>All</Button>
+                <Button variant="contained" color="primary">My</Button>
+                <Button variant="contained" color="secondary">All</Button>
             </div>
             <Typography id="range-slider" gutterBottom>
                 Number of cards

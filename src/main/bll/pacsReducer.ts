@@ -5,22 +5,22 @@ import {ThunkAction, ThunkDispatch} from "redux-thunk";
 
 export type PacksType = {
     cardPacks: Array<PackType>,
-    cardsTotalCount: number,
-    maxGrade: string,
+    cardPacksTotalCount: number,
+    maxGrade: number,
     minGrade: number,
-    page: number
-    pageCount: number,
+    currentPage: number
+    pageSize: number,
     token: string,
     tokenDeathTime: number,
 }
 
 let initialState: PacksType = {
     cardPacks: [],
-    cardsTotalCount: 0,
-    maxGrade: '',
+    cardPacksTotalCount: 0,
+    maxGrade: 0,
     minGrade: 0,
-    page: 0,
-    pageCount: 0,
+    currentPage: 0,
+    pageSize: 10,
     token: '',
     tokenDeathTime: 0
 };
