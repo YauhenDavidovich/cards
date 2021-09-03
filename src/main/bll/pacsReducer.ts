@@ -28,7 +28,7 @@ let initialState: PacksType = {
 type InitialStateType = typeof initialState
 
 export const packsReducer = (state = initialState, action: PacksCardsActionType): InitialStateType => {
-    debugger
+
     switch (action.type) {
 
         case "PACKS/SET-PACKS":
@@ -36,6 +36,11 @@ export const packsReducer = (state = initialState, action: PacksCardsActionType)
                 ...state,
                 ...action.packs,
                 cardPacks: action.packs.cardPacks.map(cardPack => ({...cardPack}))
+            }
+        case "PACKS/DELETE-PACKS":
+            return {
+                ...state,
+                cardPacks: state.cardPacks.filter((cardPack)=>cardPack._id===action.id)
             }
 
         default:
@@ -45,7 +50,8 @@ export const packsReducer = (state = initialState, action: PacksCardsActionType)
 
 // actions
 export const actions = {
-    setPacks : (packs:PacksResponseType) => ({type: "PACKS/SET-PACKS", packs} as const)
+    setPacks: (packs: PacksResponseType) => ({type: "PACKS/SET-PACKS", packs} as const),
+    deletePacks: (id: string) => ({type: "PACKS/DELETE-PACKS", id} as const)
 }
 
 //thunks

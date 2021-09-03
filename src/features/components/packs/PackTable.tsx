@@ -1,9 +1,8 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {getPacks} from "../../../main/bll/pacsReducer";
 import {actions, deletePacks, getPacks} from "../../../main/bll/pacsReducer";
 import {AppStateType} from "../../../main/bll/store";
-import { H3} from "../../../main/ui/commonStyle";
+import {H3} from "../../../main/ui/commonStyle";
 import MaterialTable from "material-table";
 import {IconButton} from "@material-ui/core";
 import UpdateIcon from '@material-ui/icons/Update';
@@ -47,66 +46,59 @@ export const PacksTable = () => {
     )
 }
 
-
-export const TablePacks = (props: any) => {
-    const dispatch = useDispatch()
-
-
 export type TablePacksPropsType = {
     cardPacks: Array<PackType>
 }
 
+
 export const TablePacks: React.FC<TablePacksPropsType> = ({cardPacks}) => {
-    /*const dispatch = useDispatch();
-    const deletePackItem = () => {
-        dispatch(deletePack())
-    }*/
-
-
+    const dispatch = useDispatch();
     return (
-        <div style={{ maxWidth: '100%' }}>
-        <MaterialTable
-            columns={[
-                {title: 'Name', field: 'name'},
-                {title: 'Cards count', field: 'cardsCount'},
-                {title: 'Updated', field: 'updated'},
-                {title: 'url', field: 'url'},
-                {
-                    title: "Delete pack",
-                    field: "internal_action",
-                    // editable: false,
-                    render: (rowData) =>
-                        rowData && (
-                            <IconButton
-                                color="secondary"
-                                onClick={
-                                    ()=>{console.log(rowData._id)
-                                    dispatch(deletePacks(rowData._id))}
-                                }
-                            >
+        <div style={{maxWidth: '100%'}}>
+            <MaterialTable
+                columns={[
+                    {title: 'Name', field: 'name'},
+                    {title: 'Cards count', field: 'cardsCount'},
+                    {title: 'Updated', field: 'updated'},
+                    {title: 'url', field: 'url'},
+                    {
+                        title: "Delete pack",
+                        field: "internal_action",
+                        // editable: false,
+                        render: (rowData) =>
+                            rowData && (
+                                <IconButton
+                                    color="secondary"
+                                    onClick={
+                                        () => {
+                                            console.log(rowData._id)
+                                            dispatch(deletePacks(rowData._id))
+                                            dispatch(getPacks({pageCount: 100}))
+                                        }
+                                    }
+                                >
+                                    <DeleteIcon/>
+                                </IconButton>
+                            )
+                    },
+                    {
+                        title: "Update pack",
+                        field: "internal_action",
+                        // editable: false,
+                        render: (rowData) =>
+                            rowData && (
+                                <IconButton
+                                    color="secondary"
+                                    // onClick={console.log("delete")}
+                                >
 
-                                <DeleteIcon/>
-                            </IconButton>
-                        )
-                },
-                {
-                    title: "Update pack",
-                    field: "internal_action",
-                    // editable: false,
-                    render: (rowData) =>
-                        rowData && (
-                            <IconButton
-                                color="secondary"
-                                // onClick={console.log("delete")}
-                            >
-
-                                <UpdateIcon/>
-                            </IconButton>
-                        )
-                }
-            ]}
-            data={[...props.cardPacks]}
-        />
+                                    <UpdateIcon/>
+                                </IconButton>
+                            )
+                    }
+                ]}
+                data={[...cardPacks]}
+            />
         </div>
     )
 }
