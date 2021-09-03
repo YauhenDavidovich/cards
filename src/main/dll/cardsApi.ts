@@ -5,8 +5,8 @@ const instance = axios.create({
     withCredentials: true,
 })
 
-type GetCardsRequestType = {
-    cardsPack_id: number
+export type GetCardsRequestType = {
+    cardsPack_id: string
     cardAnswer?: string
     cardQuestion?: string
     min?: number
@@ -16,7 +16,7 @@ type GetCardsRequestType = {
     pageCount?: number
 }
 
-type GetResponseType = {
+export type GetCardsResponseType = {
     cards: CardsType[]
     cardsTotalCount: number
     maxGrade: number
@@ -24,10 +24,13 @@ type GetResponseType = {
     page: number
     pageCount: number
     packUserId: string
-
+    user_name: string
+    id: string
 }
 
-type CardsType = {
+
+
+export type CardsType = {
     cardsPack_id: string
     _id: string
     user_id: string
@@ -38,19 +41,20 @@ type CardsType = {
     shots: number
     created: string
     updated: string
-}
+    grade: number
 
-type CreateCardRequestType = {
+}
+export type CreateCardRequestType = {
     cardsPack_id: string
     question?: string
     answer?: string
-    grade?: number
+    grade: number
     shots?: number
     rating?: number
     type?: string
 }
 
-type UpdateCardRequestType = {
+export type UpdateCardRequestType = {
     _id: string
     question?: string
     answer?: string
@@ -58,11 +62,13 @@ type UpdateCardRequestType = {
 }
 
 
+
 export const cardsApi = {
-    getCards(params: GetCardsRequestType) {
-        return instance.get<GetResponseType>('/cards/card', {
-            params: {...params}
-        }).then(response => response.data.cards);
+    getCards(cardsId: string) {
+        return instance.get<GetCardsResponseType>(`/cards/card?cardsPack_id=${cardsId}`
+            // params: {...params}
+
+        ).then(response => response.data);
     },
     deleteCard(id: string) {
         return instance.delete(`/cards/card?id=${id}`);
@@ -70,7 +76,7 @@ export const cardsApi = {
     createCard(card: CreateCardRequestType) {
         return instance.post('/cards/card', {card}).then(response => response.data);
     },
-    updateCard(putCard: UpdateCardRequestType) {
-        return instance.put('/cards/card', {putCard});
+    updateCard(card: UpdateCardRequestType) {
+        return instance.put('/cards/card', {card}).then(response => response.data);
     }
 }

@@ -35,7 +35,7 @@ export const SignInContainer: React.FC = () => {
 
             if (!values.password) {
                 error.password = 'Require'
-            } else if (values.password.length > 15) {
+            } else if (values.password.length < 7) {
                 error.password = 'The length of password'
             }
             return error;
