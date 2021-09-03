@@ -63,6 +63,13 @@ export const getPacks = (data: PacksRequestType): ThunkType => async (dispatch: 
         )
 };
 
+export const addPack = (packName: string) => (dispatch: ThunkActionType) => {
+    cardsPacksApi.addPack(packName)
+        .then(res => {
+            dispatch(getPacks(res.data))
+        })
+}
+
 export const deletePack = (packId: string) => (dispatch: ThunkActionType) => {
     cardsPacksApi.deletePack(packId)
         .then(res => {

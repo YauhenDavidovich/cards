@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: 'http://localhost:7542/2.0',
+    baseURL: 'https://neko-back.herokuapp.com/2.0/',
     withCredentials: true,
 })
 
@@ -65,12 +65,12 @@ export const cardsApi = {
         }).then(response => response.data.cards);
     },
     deleteCard(id: string) {
-        return instance.delete(`/cards/card?id=${id}`);
+        return instance.delete(`cards/card?id=${id}`);
     },
     createCard(card: CreateCardRequestType) {
-        return instance.post('/cards/card', {card}).then(response => response.data);
+        return instance.post('cards/card', {card}).then(response => response.data);
     },
     updateCard(putCard: UpdateCardRequestType) {
-        return instance.put('/cards/card', {putCard});
+        return instance.put('cards/card', {putCard});
     }
 }
