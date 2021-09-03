@@ -17,7 +17,6 @@ export const PacksList = () => {
 
 export const PacksContainer = () => {
 
-    console.log("where is pagination");
     return (
         <div>
             <AddPack/>
