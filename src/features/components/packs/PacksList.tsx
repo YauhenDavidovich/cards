@@ -1,6 +1,8 @@
 import {PacksControls} from "./packsControls/packsControls";
 import {AddPack} from "./AddPack";
-import {PacksTable} from "./PackTable";
+import {PacksTable} from "./PackTable2";
+
+
 import Grid from "@material-ui/core/Grid";
 
 export const PacksList = () => {

@@ -2,9 +2,8 @@ import React, {ChangeEvent, useCallback} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 import {AppStateType} from "../../../main/bll/store";
-import {CardsType} from "../../../main/dll/cardsApi";
-import {stat} from "fs";
-import {addPackThunk, deletePackThunk, PacksDataType, PacksType, updatePackThunk} from "../../../main/bll/pacsReducer";
+
+
 
 export const PacksTable =  React.memo (() => {
     const dispatch = useDispatch()
