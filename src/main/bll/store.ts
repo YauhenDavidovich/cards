@@ -4,9 +4,9 @@ import {loginReducer} from "./login-reducer";
 import {authReducer} from "./auth-reducer";
 import {forgotReducer} from "./forgotReducer";
 import {setNewPasswordReducer} from "./setNewPasswordReducer";
-import {PacksReducer} from "./pacsReducer";
 import {cardsReducer} from "./cardsReducer";
 import {packsReducer} from "./pacsReducer";
+import {PacksReducer} from "./packsReducer";
 
 
 const rootReducer = combineReducers({

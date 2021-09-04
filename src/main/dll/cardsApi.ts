@@ -28,7 +28,7 @@ export type GetCardsResponseType = {
     id: string
 }
 
-}
+
 
 export type CardsType = {
     cardsPack_id: string
