@@ -1,6 +1,7 @@
 import Button from "@material-ui/core/Button";
 import {Slider, Typography} from "@material-ui/core";
 import {useState} from "react";
+import {useDispatch} from "react-redux";
 
 function valuetext(value: number) {
     return value;
@@ -8,11 +9,13 @@ function valuetext(value: number) {
 
 export const PacksControls = () => {
 
-    const [value, setValue] = useState([0, 120]);
+    const [value, setValue] = useState([0, 9]);
 
     const handleChange = (event: any, newValue: any) => {
         setValue(newValue);
     };
+
+    const dispatch = useDispatch()
 
     return (
         <div>

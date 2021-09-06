@@ -13,6 +13,7 @@ import {Delete} from "@material-ui/icons";
 import {PackType} from "../../../main/dll/cardsPacksApi";
 
 export const PacksTable = () => {
+
     const dispatch = useDispatch()
     const {
         cardPacksTotalCount,
@@ -21,7 +22,7 @@ export const PacksTable = () => {
     } = useSelector((store: AppStateType) => store.packsReducer)
 
     useEffect(() => {
-        dispatch(getPacks({pageCount: 100}));
+        dispatch(getPacks({}));
     }, [dispatch])
 
 
@@ -60,7 +61,7 @@ export const TablePacks: React.FC<TablePacksPropsType> = ({cardPacks}) => {
                     {title: 'Name', field: 'name'},
                     {title: 'Cards count', field: 'cardsCount'},
                     {title: 'Updated', field: 'updated'},
-                    {title: 'url', field: 'url'},
+                    {title: 'url', field: 'path'},
                     {
                         title: "Delete pack",
                         field: "internal_action",

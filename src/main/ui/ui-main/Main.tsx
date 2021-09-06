@@ -9,6 +9,7 @@ import ForgotPage from "../../../features/components/recoveryPass/ForgotPage";
 import LoginForm from "../../../features/components/login/LoginForm";
 import {SignInContainer} from "../../../features/components/registration/SignInContainer";
 import {PacksList} from "../../../features/components/packs/PacksList";
+import {CardsList} from "../../../features/components/cards/CardsList";
 
 const Main = () => {
 
@@ -21,7 +22,8 @@ const Main = () => {
                 <Route path='/forgotPassword' render={() => <ForgotPage />}/>
                 <Route path='/set-new-password/:token' render={() => <NewPassword />}/>
                 <Route path='/profile' render={() => <Profile/>}/>
-                <Route path='/packs' render={() => <PacksList/>}/>
+                <Route path='/packslist' render={() => <PacksList/>}/>
+                <Route path='/cards' render={() => <CardsList/>}/>
                 <Route path='/test' render={() => <TestingSuperComponents/>}/>
                 <Route path='/404' component={NotFound}/>
                 {/*<Redirect from={'*'} to={'/404'}/>*/}
