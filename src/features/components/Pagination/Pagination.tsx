@@ -7,7 +7,7 @@ import s from "./Pagination.module.css";
 import {v1} from "uuid";
 
 
-function Pagination(props: any) {
+function Pagination() {
 
     const itemsOnPage = useSelector<AppStateType, NumberOfPacksType>(state => state.pagination.itemsOnPage);
     const currentPage = useSelector<AppStateType, number>(state => state.pagination.currentPage);
@@ -38,19 +38,6 @@ function Pagination(props: any) {
                              onClick={onPageChange}
                 >{page}</span>
             })}
-       {/* <ReactPaginate
-            previousLabel={"Previous"}
-            nextLabel={"Next"}
-            pageCount={pageCount}
-            onPageChange={onPageChange}
-            containerClassName={"paginationBttns"}
-            previousLinkClassName={"previousBttn"}
-            nextLinkClassName={"nextBttn"}
-            disabledClassName={"paginationDisabledBttn"}
-            activeClassName={"paginationActive"}
-            marginPagesDisplayed={itemsOnPage}
-            pageRangeDisplayed={itemsOnPage}
-         />*/}
         </div>
     );
 }
