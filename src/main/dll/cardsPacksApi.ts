@@ -5,11 +5,10 @@ const instance = axios.create({
     withCredentials: true
 })*/
 
-const instanceRemote = axios.create({
-    baseURL:
-        "http://localhost:7542/2.0/",
+const instance = axios.create({
+    baseURL: 'https://neko-back.herokuapp.com/2.0/',
     withCredentials: true
-})
+});
 
 export type PackType = {
     _id: string
@@ -65,18 +64,18 @@ export type RequestAddPackType = {
 
 export const cardsPacksApi = {
     getPacks(params: PacksRequestType) {
-        return instanceRemote.get<PacksResponseType>('cards/pack', {
+        return instance.get<PacksResponseType>('cards/pack', {
             params: {...params}
         }).then(response => response.data);
     },
     addPack(packName: string) {
-        return instanceRemote.post<PacksResponseType>('cards/pack', {packName})
+        return instance.post<PacksResponseType>('cards/pack', {packName})
     },
     deletePack(packId: string) {
-        return instanceRemote.delete<PacksResponseType>('cards/pack', {params: {packId}})
+        return instance.delete<PacksResponseType>('cards/pack', {params: {packId}})
     },
     updatePack(packId: string, name: string) {
-        return instanceRemote.put<PacksResponseType>('cards/pack', {packId, name})
+        return instance.put<PacksResponseType>('cards/pack', {packId, name})
     }
 }
 

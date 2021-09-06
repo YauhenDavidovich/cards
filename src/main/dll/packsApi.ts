@@ -1,9 +1,31 @@
 import axios from "axios";
 
-const instance = axios.create({
+/*const instance = axios.create({
     baseURL: 'http://localhost:7542/2.0',
     withCredentials: true,
-})
+})*/
+
+const instance = axios.create({
+    baseURL: 'https://neko-back.herokuapp.com/2.0/',
+    withCredentials: true
+});
+
+export const packsApi = {
+    getPacks(params?: GetPacksRequestType) {
+        return instance.get('/cards/pack', {
+            params: {...params}
+        }).then(response => response.data);
+    },
+    deletePacks(id: string) {
+        return instance.delete(`/cards/pack?id=${id}`).then(response => response.data);
+    },
+    addPack(data: CreatePackRequestType) {
+        return instance.post('/cards/pack', {data}).then(response => response.data);
+    },
+    updatePack(data:UpdatePackRequestType) {
+        return instance.put('/cards/pack', {data}).then(response => response.data);
+    }
+}
 
 export type GetPacksRequestType = {
     user_id?: string
@@ -13,21 +35,6 @@ export type GetPacksRequestType = {
     page?: number
     pageCount?: number
 }
-
-
-
-// type PacksType = {
-//     cardsPack_id: string
-//     _id: string
-//     user_id: string
-//     type: string
-//     answer: string
-//     question: string
-//     rating: number
-//     shots: number
-//     created: string
-//     updated: string
-// }
 
 export type CreatePackRequestType = {
     name: string
@@ -53,19 +60,15 @@ export type UpdatePackRequestType = {
 }
 
 
-export const packsApi = {
-    getPacks(params?: GetPacksRequestType) {
-        return instance.get('/cards/pack', {
-            params: {...params}
-        }).then(response => response.data);
-    },
-    deletePacks(id: string) {
-        return instance.delete(`/cards/pack?id=${id}`).then(response => response.data);
-    },
-    addPack(data: CreatePackRequestType) {
-        return instance.post('/cards/pack', {data}).then(response => response.data);
-    },
-    updatePack(data:UpdatePackRequestType) {
-        return instance.put('/cards/pack', {data}).then(response => response.data);
-    }
-}
+// type PacksType = {
+//     cardsPack_id: string
+//     _id: string
+//     user_id: string
+//     type: string
+//     answer: string
+//     question: string
+//     rating: number
+//     shots: number
+//     created: string
+//     updated: string
+// }

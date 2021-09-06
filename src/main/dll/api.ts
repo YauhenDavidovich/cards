@@ -1,5 +1,35 @@
 import axios from "axios";
 
+const instance = axios.create({
+    baseURL: 'https://neko-back.herokuapp.com/2.0/',
+    withCredentials: true
+});
+
+/*
+const instance = axios.create({
+    baseURL:
+        "http://localhost:7542/2.0/",
+    withCredentials: true
+});
+*/
+
+export const authAPI = {
+    login(email: string, password: string, rememberMe: boolean) {
+        return instance.post<ResponseType>(`auth/login`, {email, password, rememberMe})},
+
+    me(){
+        return instance.post<ResponseType>('auth/me')
+            .then(response => response.data)
+    },
+    logout() {
+        return instance.delete<ResponseType>(`auth/login`)
+            .then(response => response.data)
+    },
+    register(email:string, password: string) {
+        return instance.post('auth/register', {email,password})
+            .then(response => response.data)
+    }
+};
 
 export type InitialStateType = {
     email: string,
@@ -21,27 +51,3 @@ type ResponseType = {
     rememberMe: boolean
     error?: string;
 }
-
-const instance = axios.create({
-    baseURL:
-        "http://localhost:7542/2.0/",
-    withCredentials: true
-});
-
-export const authAPI = {
-    login(email: string, password: string, rememberMe: boolean) {
-        return instance.post<ResponseType>(`auth/login`, {email, password, rememberMe})},
-
-    me(){
-        return instance.post<ResponseType>('auth/me')
-            .then(response => response.data)
-    },
-    logout() {
-        return instance.delete<ResponseType>(`auth/login`)
-            .then(response => response.data)
-    },
-    register(email:string, password: string) {
-        return instance.post('auth/register', {email,password})
-            .then(response => response.data)
-    }
-};
