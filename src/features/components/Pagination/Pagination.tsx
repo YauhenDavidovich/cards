@@ -2,9 +2,9 @@ import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../main/bll/store";
 import {getPacks, NumberOfPacksType} from "./paginationReducer";
-import {SinglePackType} from "../../../main/bll/pacsReducer";
 import s from "./Pagination.module.css";
 import {v1} from "uuid";
+import {SinglePackType} from "../../../main/bll/pacsReducer";
 
 
 function Pagination() {
