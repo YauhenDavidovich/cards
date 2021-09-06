@@ -1,8 +1,25 @@
+/*.formContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 50px;
+}*/
+
 .formStyle {
-    margin-bottom: 30px;
+    margin-bottom: 50px;
 }
 
 .inputStyle {
+    outline: none;
     padding: 5px;
     margin-right: 20px;
+}
+
+.errorStyle {
+    margin-top: 5px;
+    color: red;
+}
+
+.addBtnStyle {
+    position: fixed;
 }

@@ -7,7 +7,7 @@ type FormikValuesType = {
     newPackName: string
 }
 type FormikErrorType = {
-    newPackName?: string
+    newPackName?: string | null
 }
 
 //Formik validation
@@ -29,12 +29,15 @@ export const AddPack = () => {
         validate,
         onSubmit: values => {
             alert(values.newPackName)
+            formik.errors.newPackName = "";
+            values.newPackName = "";
             // dispatch(addPack)
             // formik.resetForm()
         },
     });
 
     return (
+        // <div className={s.formContainer}>
         <form onSubmit={formik.handleSubmit} className={s.formStyle}>
             <input
                 className={s.inputStyle}
@@ -43,7 +46,9 @@ export const AddPack = () => {
                 type="text"
                 {...formik.getFieldProps('newPackName')}
             />
-            <Button type="submit">Add Pack</Button>
+                {formik.errors.newPackName ? <div className={s.errorStyle}>{formik.errors.newPackName}</div> : null}
+            <Button type="submit" className={s.addBtnStyle}>Add Pack</Button>
         </form>
+        // </div>
     )
 }
