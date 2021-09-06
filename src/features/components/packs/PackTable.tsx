@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {actions, deletePacks, getPacks} from "../../../main/bll/pacsReducer";
+import {deletePacks, getPacks} from "../../../main/bll/pacsReducer";
 import {AppStateType} from "../../../main/bll/store";
 import {H3} from "../../../main/ui/commonStyle";
 import MaterialTable from "material-table";
@@ -9,7 +9,6 @@ import UpdateIcon from '@material-ui/icons/Update';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import {Delete} from "@material-ui/icons";
 import {PackType} from "../../../main/dll/cardsPacksApi";
 
 export const PacksTable = () => {

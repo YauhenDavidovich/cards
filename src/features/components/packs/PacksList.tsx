@@ -1,5 +1,5 @@
 import {PacksControls} from "./packsControls/packsControls";
-import {AddPack} from "./AddPack";
+import {AddPack} from "./AddPack/AddPack";
 import Grid from "@material-ui/core/Grid";
 import {PacksTable} from "./PackTable";
 
