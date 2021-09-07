@@ -1,6 +1,8 @@
 import {Button} from "../../../../main/ui/commonStyle";
 import {useFormik} from "formik";
 import s from './AddPack.module.css';
+import {useDispatch} from "react-redux";
+import {addPack} from "../../../../main/bll/pacsReducer";
 
 //types
 type FormikValuesType = {
@@ -15,24 +17,25 @@ const validate = (values: FormikValuesType) => {
     const errors: FormikErrorType = {};
     if (!values.newPackName) {
         errors.newPackName = 'Required';
-    } else if (values.newPackName.length < 3 && values.newPackName.length > 15) {
+    } else if (values.newPackName.length < 3 || values.newPackName.length > 15) {
         errors.newPackName = 'Pack name must be from 3 to 15 characters';
     }
     return errors;
 };
 
 export const AddPack = () => {
+
+    const dispatch = useDispatch();
     const formik = useFormik({
         initialValues: {
             newPackName: ""
         },
         validate,
-        onSubmit: values => {
-            alert(values.newPackName)
-            formik.errors.newPackName = "";
-            values.newPackName = "";
-            // dispatch(addPack)
-            // formik.resetForm()
+        onSubmit: (values) => {
+
+            console.log(values.newPackName)
+            dispatch(addPack(values.newPackName))
+            formik.resetForm()
         },
     });
 
@@ -46,8 +49,10 @@ export const AddPack = () => {
                 type="text"
                 {...formik.getFieldProps('newPackName')}
             />
-                {formik.errors.newPackName ? <div className={s.errorStyle}>{formik.errors.newPackName}</div> : null}
+
+            {formik.errors.newPackName && formik.touched.newPackName ? <div className={s.errorStyle}>{formik.errors.newPackName}</div> : null}
             <Button type="submit" className={s.addBtnStyle}>Add Pack</Button>
+            {/*<button type='submit'>add pack</button>*/}
         </form>
         // </div>
     )

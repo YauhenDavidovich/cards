@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {deletePacks, getPacks} from "../../../main/bll/pacsReducer";
+import {deletePack, getPacks} from "../../../main/bll/pacsReducer";
 import {AppStateType} from "../../../main/bll/store";
 import {H3} from "../../../main/ui/commonStyle";
 import MaterialTable from "material-table";
@@ -72,7 +72,7 @@ export const TablePacks: React.FC<TablePacksPropsType> = ({cardPacks}) => {
                                     onClick={
                                         () => {
                                             console.log(rowData._id)
-                                            dispatch(deletePacks(rowData._id))
+                                            dispatch(deletePack(rowData._id))
                                             dispatch(getPacks({pageCount: 100}))
                                         }
                                     }

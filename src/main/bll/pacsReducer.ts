@@ -1,7 +1,7 @@
 import {cardsPacksApi, PacksRequestType, PacksResponseType, PackType} from "../dll/cardsPacksApi";
 import {AppStateType, InferActionTypes} from "./store";
-import {getCookie, setCookie} from "./cookies";
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
+import {Dispatch} from "redux";
 
 export type PacksType = {
     cardPacks: Array<PackType>,
@@ -19,7 +19,7 @@ let initialState: PacksType = {
     cardPacksTotalCount: 0,
     maxGrade: 0,
     minGrade: 0,
-    currentPage: 0,
+    currentPage: 1,
     pageSize: 10,
     token: '',
     tokenDeathTime: 0
@@ -31,18 +31,40 @@ export const packsReducer = (state = initialState, action: PacksCardsActionType)
 
     switch (action.type) {
 
-        case "PACKS/SET-PACKS":
+        case "packs/SET-PACKS":
             return {
                 ...state,
                 ...action.packs,
                 cardPacks: action.packs.cardPacks.map(cardPack => ({...cardPack}))
             }
-        case "PACKS/DELETE-PACKS":
+        case "packs/DELETE-PACK":
             return {
                 ...state,
                 cardPacks: state.cardPacks.filter((cardPack)=>cardPack._id===action.id)
             }
-
+        case "packs/ADD-PACK":
+            const newPack: PackType = {
+                _id: "",
+                user_id: "",
+                user_name: "Tania",
+                private: true,
+                name: action.packName,
+                path: "/def",
+                grade: 0,
+                shots: 0,
+                cardsCount: 0,
+                type: "pack",
+                rating: 0,
+                created: new Date().toString(),
+                updated: new Date().toString(),
+                more_id: "",
+                __v: 0
+            };
+            const copyState = {...state};
+            return {
+                ...copyState,
+                cardPacks: [newPack, ...state.cardPacks]
+            }
         default:
             return state
     }
@@ -50,8 +72,9 @@ export const packsReducer = (state = initialState, action: PacksCardsActionType)
 
 // actions
 export const actions = {
-    setPacks: (packs: PacksResponseType) => ({type: "PACKS/SET-PACKS", packs} as const),
-    deletePacks: (id: string) => ({type: "PACKS/DELETE-PACKS", id} as const)
+    setPacks: (packs: PacksResponseType) => ({type: "packs/SET-PACKS", packs} as const),
+    deletePacks: (id: string) => ({type: "packs/DELETE-PACK", id} as const),
+    addPack: (packName: string) => ({ type: "packs/ADD-PACK", packName } as const)
 }
 
 //thunks
@@ -64,14 +87,36 @@ export const getPacks = (data: PacksRequestType): ThunkType => async (dispatch: 
 
 };
 
-export const deletePacks = (id: string): ThunkType => async (dispatch: ThunkActionType) => {
+export const deletePack = (id: string): ThunkType => async (dispatch: ThunkActionType) => {
     cardsPacksApi.deletePack(id)
-        .then(res => {
+        .then(() => {
                 dispatch(actions.deletePacks(id))
             }
         )
 
 };
+
+
+/*export type PacksRequestType = {
+    packName?: string
+    min?: number
+    max?: number
+    sortPacks?: string
+    page?: number
+    pageCount?: number
+    user_id?: string
+}*/
+export const addPack = (packName: string) => (dispatch: Dispatch) => {
+    cardsPacksApi.addPack(packName)
+        .then(res => {
+            if(res.data.cardPacks) {
+                dispatch(actions.addPack(packName))
+                // const { minCardsCount, maxCardsCount, page, pageCount } = res.data;
+                //
+                // dispatch(getPacks({packName, min, max, page, pageCount}))
+            }
+        })
+}
 
 type ThunkType = ThunkAction<void, AppStateType, any, PacksCardsActionType>;
 type PacksCardsActionType = InferActionTypes<typeof actions>;
