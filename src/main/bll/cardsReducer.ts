@@ -9,8 +9,11 @@ import {AppStateType} from "./store";
 
 
 let initialState  = {
-    user_name: '',
-    id: '',
+    packData: {
+        user_name: '',
+        id: '',
+    },
+
    cards: [
        {
            _id: "23432234",
@@ -134,19 +137,12 @@ export const DeleteCardsThunk = (id: string) => async (dispatch: Dispatch) => {
 
 
 export const upDateCardThunk = (card: UpdateCardRequestType) => async (dispatch: Dispatch) => {
-    // cardsApi.updateCard(card)
-    //     .then(data =>
-    //    // await dispatch(getCardsThunk(data.data.card))
-    //     .catch((e) => {
-    //         // const error = e.response
-    //         //     ? e.response.data.error
-    //         //     : (e.message + ', more details in the console');
-    //         console.log('Error: ', {...e})
-
-
-
+    try {
+        const data = await cardsApi.updateCard(card)
+    } catch (e) {
+        console.log('error')
+    }
 }
-
 
 
 

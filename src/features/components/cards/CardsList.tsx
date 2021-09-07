@@ -1,7 +1,7 @@
-import React, {useCallback} from "react";
+import React, {useCallback, MouseEvent} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../main/bll/store";
-import {CardsType} from "../../../main/dll/cardsApi";
+import {CardsType, CreateCardRequestType, UpdateCardRequestType} from "../../../main/dll/cardsApi";
 import {CreateCardThunk, DeleteCardsThunk, upDateCardThunk} from "../../../main/bll/cardsReducer";
 import {Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 
@@ -9,20 +9,36 @@ import {Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, T
 export const CardsList = () => {
     const dispatch = useDispatch();
     const cards = useSelector<AppStateType, Array<CardsType>>(state => state.cards.cards);
-    const cardsPackId = useSelector<AppStateType>(state => state.cards.id)
+    const cardsPackId = useSelector<AppStateType, string>(state => state.cards.packData.id)
 
 
     const addCardHandler = useCallback(() => {
-        dispatch(CreateCardThunk)
+        const newCard: CreateCardRequestType = {
+            cardsPack_id: cardsPackId,
+            grade: 1
+        }
+        //{}{
+        //     cardsPack_id: string
+        //     question?: string
+        //     answer?: string
+        //     grade: number
+        //     shots?: number
+        //     rating?: number
+        //     type?: string
+        // }
+        return dispatch(CreateCardThunk(newCard));
     }, [])
 
-    const deleteCardHandler = useCallback((id: string) => {
+    const deleteCardHandler = useCallback((e: MouseEvent<HTMLButtonElement>, id: string) => {
         dispatch(DeleteCardsThunk(id))
 
     }, [])
 
-    const updateCardHandler = useCallback((_id: string) => {
-        // dispatch(upDateCardThunk(_id))
+    const updateCardHandler = useCallback((e, id:string) => {
+        const updatedCard: UpdateCardRequestType = {
+            _id: id
+        }
+        dispatch(upDateCardThunk(updatedCard))
 
     }, [])
 
@@ -50,9 +66,9 @@ export const CardsList = () => {
                             <TableCell align="right">{cards.updated.slice(0, 10)}</TableCell>
                             <TableCell align="right">{cards.grade}</TableCell>
                             <TableCell align="right">
-                                <Button onClick={e => deleteCardHandler(cards._id)}>
+                                <Button onClick={e => deleteCardHandler(e, cards._id)}>
                                     Delete</Button>
-                                <Button onClick={e => updateCardHandler(cards._id)}>
+                                <Button onClick={e => updateCardHandler(e, cards._id)}>
                                     Update</Button>
 
                             </TableCell>

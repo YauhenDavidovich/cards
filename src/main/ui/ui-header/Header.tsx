@@ -19,6 +19,7 @@ const Header = () => {
                     <MenuNavLink to="/set-new-password">New password</MenuNavLink>
                     <MenuNavLink to="/profile">Profile</MenuNavLink>
                     <MenuNavLink to="/packslist">Packs</MenuNavLink>
+                    <MenuNavLink to="/cards">Cards</MenuNavLink>
                     <Button as={NavLink} to='/signup' color={"blue"}>Sign up</Button>
                 </FlexRowCenter>
             </HeaderContainer>
