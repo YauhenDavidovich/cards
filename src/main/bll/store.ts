@@ -13,9 +13,8 @@ const rootReducer = combineReducers({
     forgot: forgotReducer,
     newPassword: setNewPasswordReducer,
     login: loginReducer,
-    // packs: packsReducer,
     cards: cardsReducer,
-    packsReducer: packsReducer
+    packs: packsReducer
 });
 
 export type AppStateType = ReturnType<typeof rootReducer>
