@@ -22,7 +22,7 @@ const Main = () => {
                 <Route path='/forgotPassword' render={() => <ForgotPage />}/>
                 <Route path='/set-new-password/:token' render={() => <NewPassword />}/>
                 <Route path='/profile' render={() => <Profile/>}/>
-                <Route path='/packs' render={() => <PacksList/>}/>
+                <Route path='/packslist' render={() => <PacksList/>}/>
                 <Route path='/cards' render={() => <CardsList/>}/>
                 <Route path='/test' render={() => <TestingSuperComponents/>}/>
                 <Route path='/404' component={NotFound}/>

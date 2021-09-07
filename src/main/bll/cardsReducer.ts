@@ -98,7 +98,6 @@ export const getCardsThunk = (cardsId: string) => async (dispatch: Dispatch) => 
     try{
 
         const data = await cardsApi.getCards(cardsId)
-        debugger
         dispatch(setCards(data))
     } catch (e) {
 

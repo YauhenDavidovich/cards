@@ -15,7 +15,9 @@ export const loginReducer = (state = initialState, action: ActionsTypeLogin): In
             return {
                 ...state,
                 email: action.email,
-                isAuth: action.isAuth
+                idUser: action._id,
+                isAuth: action.isAuth,
+
             };
         default:
             return state;
@@ -25,8 +27,8 @@ export const loginReducer = (state = initialState, action: ActionsTypeLogin): In
 
 
 // actions
-export const setAuthUserData = (email: string, isAuth: boolean) =>
-    ({type: "SET-IS-LOGGED-IN", email, isAuth} as const)
+export const setAuthUserData = (email: string, _id: string, isAuth: boolean) =>
+    ({type: "SET-IS-LOGGED-IN", email, _id, isAuth} as const)
 
 
 // thunks
@@ -34,7 +36,7 @@ export const loginTC = (email: string, password: string, rememberMe: boolean) =>
 
     authAPI.login(email, password, rememberMe)
         .then(res => {
-                dispatch(setAuthUserData(res.data.email,true))
+                dispatch(setAuthUserData(res.data.email, res.data._id, true))
             }
         )
         .catch((e) => {

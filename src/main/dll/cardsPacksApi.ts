@@ -6,7 +6,8 @@ const instance = axios.create({
 })*/
 
 const instanceRemote = axios.create({
-    baseURL: 'https://neko-back.herokuapp.com/2.0/',
+    baseURL:
+        "http://localhost:7542/2.0/",
     withCredentials: true
 })
 
@@ -65,7 +66,7 @@ export type RequestAddPackType = {
 export const cardsPacksApi = {
     getPacks(params: PacksRequestType) {
         return instanceRemote.get<PacksResponseType>('cards/pack', {
-            params: {...params}
+            params: {...params, pageCount: 300}
         }).then(response => response.data);
     },
     addPack(packName: string) {
