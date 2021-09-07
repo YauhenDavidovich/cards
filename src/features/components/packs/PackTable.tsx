@@ -7,9 +7,11 @@ import MaterialTable from "material-table";
 import {IconButton} from "@material-ui/core";
 import UpdateIcon from '@material-ui/icons/Update';
 import DeleteIcon from '@material-ui/icons/Delete';
+import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import {PackType} from "../../../main/dll/cardsPacksApi";
+import {useHistory} from "react-router-dom";
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
 import Check from '@material-ui/icons/Check';
@@ -57,7 +59,7 @@ export const PacksTable = () => {
     } = useSelector((store: AppStateType) => store.packs)
 
     useEffect(() => {
-        dispatch(getPacks({}))
+        dispatch(getPacks({}));
     }, [dispatch])
 
 
@@ -68,7 +70,7 @@ export const PacksTable = () => {
             <Grid container direction={"column"} justifyContent={"center"} alignItems="center" spacing={3}>
                 {cardPacks!.length === 0 ? <H3>This user has no packs.</H3>
                     :
-                        <TablePacks cardPacks={cardPacks}/>
+                    <TablePacks cardPacks={cardPacks}/>
                 }
             </Grid>
         </Container>
@@ -84,50 +86,70 @@ export type TablePacksPropsType = {
 
 export const TablePacks: React.FC<TablePacksPropsType> = ({cardPacks}) => {
     const dispatch = useDispatch();
-    return (
-        <MaterialTable
-            icons={tableIcons}
-            columns={[
-                {title: 'Name', field: 'name'},
-                {title: 'Cards count', field: 'cardsCount'},
-                {title: 'Updated', field: 'updated'},
-                {title: 'url', field: 'path'},
-                {
-                    title: "Delete pack",
-                    field: "internal_action",
-                    // editable: false,
-                    render: (rowData) =>
-                        rowData && (
-                            <IconButton
-                                color="secondary"
-                                onClick={
-                                    () => {
-                                        dispatch(deletePacks(rowData._id))
-                                        dispatch(getPacks({}))
-                                    }
-                                }
-                            >
-                                <DeleteIcon/>
-                            </IconButton>
-                        )
-                },
-                {
-                    title: "Update pack",
-                    field: "internal_action",
-                    // editable: false,
-                    render: (rowData) =>
-                        rowData && (
-                            <IconButton
-                                color="secondary"
-                                // onClick={console.log("delete")}
-                            >
+    const history = useHistory();
 
-                                <UpdateIcon/>
-                            </IconButton>
-                        )
-                }
-            ]}
-            data={[...cardPacks]}
-        />
+    const routeChange = (packId: string) => {
+        let path = '/cards/' + packId
+        history.push(path);
+
+    }
+    return (
+        <div style={{maxWidth: '100%'}}>
+            <MaterialTable
+                icons={tableIcons}
+                columns={[
+                    {title: 'Name', field: 'name'},
+                    {title: 'Cards count', field: 'cardsCount'},
+                    {title: 'Updated', field: 'updated'},
+                    {
+                        title: "Cards",
+                        field: "internal_action",
+                        render: (rowData) =>
+                            rowData && (
+                                <IconButton
+                                    color="primary"
+                                    onClick={() => routeChange(rowData._id)}
+                                >
+                                    <LibraryBooksIcon/>
+                                </IconButton>
+                            )
+                    },
+                    {
+                        title: "Delete pack",
+                        field: "internal_action",
+                        render: (rowData) =>
+                            rowData && (
+                                <IconButton
+                                    color="secondary"
+                                    onClick={
+                                        () => {
+                                            console.log(rowData._id)
+                                            dispatch(deletePacks(rowData._id))
+                                            dispatch(getPacks({pageCount: 100}))
+                                        }
+                                    }
+                                >
+                                    <DeleteIcon/>
+                                </IconButton>
+                            )
+                    },
+                    {
+                        title: "Update pack",
+                        field: "internal_action",
+                        render: (rowData) =>
+                            rowData && (
+                                <IconButton
+                                    color="secondary"
+                                    // onClick={console.log("delete")}
+                                >
+
+                                    <UpdateIcon/>
+                                </IconButton>
+                            )
+                    }
+                ]}
+                data={[...cardPacks]}
+            />
+        </div>
     )
 }

@@ -23,7 +23,7 @@ const Main = () => {
                 <Route path='/set-new-password/:token' render={() => <NewPassword />}/>
                 <Route path='/profile' render={() => <Profile/>}/>
                 <Route path='/packslist' render={() => <PacksList/>}/>
-                <Route path='/cards' render={() => <CardsList/>}/>
+                <Route path='/cards/:id' render={() => <CardsList/>}/>
                 <Route path='/test' render={() => <TestingSuperComponents/>}/>
                 <Route path='/404' component={NotFound}/>
                 {/*<Redirect from={'*'} to={'/404'}/>*/}

@@ -1,15 +1,18 @@
-import React, {useCallback, MouseEvent} from "react";
+import React, {useCallback, MouseEvent, useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../main/bll/store";
 import {CardsType, CreateCardRequestType, UpdateCardRequestType} from "../../../main/dll/cardsApi";
 import {CreateCardThunk, DeleteCardsThunk, upDateCardThunk} from "../../../main/bll/cardsReducer";
 import {Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
+import {useParams} from "react-router-dom";
 
 
 export const CardsList = () => {
     const dispatch = useDispatch();
     const cards = useSelector<AppStateType, Array<CardsType>>(state => state.cards.cards);
-    const cardsPackId = useSelector<AppStateType, string>(state => state.cards.packData.id)
+    // const cardsPackId = useSelector<AppStateType, string>(state => state.cards.packData.id)
+    // @ts-ignore
+    const {cardsPackId} =  useParams()
 
 
     const addCardHandler = useCallback(() => {
