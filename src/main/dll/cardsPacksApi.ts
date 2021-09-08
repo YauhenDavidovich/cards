@@ -69,8 +69,8 @@ export const cardsPacksApi = {
             params: {...params, pageCount: 300}
         }).then(response => response.data);
     },
-    addPack(packName: string) {
-        return instanceRemote.post<PacksResponseType>('cards/pack', {packName})
+    addPack(pack: RequestAddPackType) {
+        return instanceRemote.post<PacksResponseType>('cards/pack', {...pack})
     },
     deletePack(packId: string) {
         return instanceRemote.delete<PacksResponseType>('cards/pack', {params: {packId}})

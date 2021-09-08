@@ -10,12 +10,10 @@ import {useParams} from "react-router-dom";
 export const CardsList = () => {
     const dispatch = useDispatch();
     const cards = useSelector<AppStateType, Array<CardsType>>(state => state.cards.cards);
-
-
     interface ParamTypes {
         id: string
     }
-    const { id } = useParams<ParamTypes>();
+    const {id} = useParams<ParamTypes>();
     useEffect(() => {
         dispatch(getCardsThunk(id));
     }, [id])
@@ -43,7 +41,7 @@ export const CardsList = () => {
 
     }, [])
 
-    const updateCardHandler = useCallback((e, id:string) => {
+    const updateCardHandler = useCallback((e, id: string) => {
         const updatedCard: UpdateCardRequestType = {
             _id: id
         }
@@ -60,11 +58,9 @@ export const CardsList = () => {
                         <TableCell align="right">answer</TableCell>
                         <TableCell align="right">Grade</TableCell>
                         <TableCell align="right">Update</TableCell>
-
                         <Button variant="contained" onClick={addCardHandler}>
                             Add New Card
                         </Button>
-
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -79,11 +75,9 @@ export const CardsList = () => {
                                     Delete</Button>
                                 <Button onClick={e => updateCardHandler(e, cards._id)}>
                                     Update</Button>
-
                             </TableCell>
                         </TableRow>
                     ))}
-
                 </TableBody>
             </Table>
         </TableContainer>

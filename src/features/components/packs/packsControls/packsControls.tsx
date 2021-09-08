@@ -4,11 +4,6 @@ import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getPacks} from "../../../../main/bll/pacsReducer";
 import {AppStateType} from "../../../../main/bll/store";
-import {useState} from "react";
-
-function valuetext(value: number) {
-    return value;
-}
 
 export const PacksControls = () => {
     const idUser = useSelector<AppStateType, string>(state =>
@@ -24,9 +19,8 @@ export const PacksControls = () => {
 
     const handleChange = (event: any, newValue: any) => {
         setValue(newValue);
+        console.log(newValue)
     };
-
-    const dispatch = useDispatch()
 
     return (
         <div>
