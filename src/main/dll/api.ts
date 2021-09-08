@@ -24,17 +24,18 @@ type ResponseType = {
 
 const instance = axios.create({
     baseURL:
-        "http://localhost:7542/2.0/",
+        "https://neko-back.herokuapp.com/2.0/",
     withCredentials: true
 });
+
 
 export const authAPI = {
     login(email: string, password: string, rememberMe: boolean) {
         return instance.post<ResponseType>(`auth/login`, {email, password, rememberMe})},
 
     me(){
-        return instance.post<ResponseType>('auth/me')
-            .then(response => response.data)
+        return instance.post<ResponseType>('auth/me', {})
+            // .then(response => response.data)
     },
     logout() {
         return instance.delete<ResponseType>(`auth/login`)
