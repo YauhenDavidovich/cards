@@ -6,9 +6,9 @@ import {PacksTable} from "./PackTable";
 export const PacksList = () => {
 
     return (
-        <Grid container direction={"row"} justifyContent={"space-between"} alignItems="center">
-            <PacksControls/>
-            <PacksContainer/>
+        <Grid container spacing={3}  justifyContent={"space-between"} alignItems="center">
+            <Grid item xs={3}><PacksControls/></Grid>
+            <Grid item xs={10}><PacksContainer/></Grid>
         </Grid>
     )
 }

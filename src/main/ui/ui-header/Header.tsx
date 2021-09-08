@@ -22,6 +22,8 @@ const Header = () => {
                     <MenuNavLink to="/profile">Profile</MenuNavLink>
                     <MenuNavLink to="/packslist">Packs</MenuNavLink>
                     <Button as={NavLink} to='/signup' color={"blue"} onClick={()=> history.push('/signup')}>Sign up</Button>
+                    <MenuNavLink to="/cards">Cards</MenuNavLink>
+                    <Button as={NavLink} to='/signup' color={"blue"}>Sign up</Button>
                 </FlexRowCenter>
             </HeaderContainer>
         </HeaderWrapper>

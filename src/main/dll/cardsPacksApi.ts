@@ -66,7 +66,7 @@ export type RequestAddPackType = {
 export const cardsPacksApi = {
     getPacks(params: PacksRequestType) {
         return instanceRemote.get<PacksResponseType>('cards/pack', {
-            params: {...params}
+            params: {...params, pageCount: 300}
         }).then(response => response.data);
     },
     addPack(packName: string) {

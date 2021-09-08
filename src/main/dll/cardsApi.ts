@@ -1,12 +1,12 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: 'http://localhost:7542/2.0',
+    baseURL: "http://localhost:7542/2.0/",
     withCredentials: true,
 })
 
-type GetCardsRequestType = {
-    cardsPack_id: number
+export type GetCardsRequestType = {
+    cardsPack_id: string
     cardAnswer?: string
     cardQuestion?: string
     min?: number
@@ -16,7 +16,7 @@ type GetCardsRequestType = {
     pageCount?: number
 }
 
-type GetResponseType = {
+export type GetCardsResponseType = {
     cards: CardsType[]
     cardsTotalCount: number
     maxGrade: number
@@ -59,6 +59,7 @@ export type UpdateCardRequestType = {
     answer?: string
     comments?: string
 }
+
 
 
 export const cardsApi = {
