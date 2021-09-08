@@ -1,12 +1,13 @@
 import {Dispatch} from "redux";
 import {RequestStatusType} from "./forgotReducer";
 import {authAPI} from "../dll/api";
+import {setAuthUserData, setIsLoggedIn} from "./login-reducer";
 
 
 const initialState = {
     status: 'idle' as RequestStatusType,
     error: null as string | null,
-    isInitialized: true
+    isInitialized: false
 }
 
 export type InitialStateType = typeof initialState;
@@ -34,16 +35,10 @@ export const setAppInitialised = (isInitialised: boolean) => ({ type: 'app/SET_A
 
 export const initialiseApp = () => (dispatch: Dispatch) => {
     authAPI.me()
-        .then(res => {
-            console.log(res.data.publicCardPacksCount)
+        .then((res) => {
+            debugger;
             dispatch(setAppInitialised(true))
-
-            /*if(res.data.resultCode === 0) {
-                dispatch(setIsloggedInAC({value: true}))
-            } else {
-                handleServerAppError(res.data, dispatch)
-            }
-            dispatch(setAppInitialised({isInitialised: true}))*/
+            dispatch(setAuthUserData(res.data.email, res.data._id, res.data.verified))
         })
         .catch(error => {
             console.log(error)

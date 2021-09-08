@@ -51,6 +51,7 @@ const tableIcons: Icons = {
 
 export const PacksTable = () => {
 
+    const userId = useSelector<AppStateType, string>(state => state.auth.idUser);
     const dispatch = useDispatch()
     const {
         cardPacksTotalCount,
@@ -64,7 +65,6 @@ export const PacksTable = () => {
 
 
     let pagesCount = Math.ceil(cardPacksTotalCount / pageSize)//data for paginator -
-    console.log(cardPacks)
     return (
         <Container maxWidth="lg" style={{background: "white", height: "50vh"}}>
             <Grid container direction={"column"} justifyContent={"center"} alignItems="center" spacing={3}>
@@ -121,7 +121,7 @@ export const TablePacks: React.FC<TablePacksPropsType> = ({cardPacks}) => {
                                     onClick={
                                         () => {
                                             console.log(rowData._id)
-                                            dispatch(deletePack(rowData._id))
+                                            dispatch(deletePack(rowData._id, true))
                                         }
                                     }
                                 >

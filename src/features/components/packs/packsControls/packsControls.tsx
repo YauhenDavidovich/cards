@@ -22,6 +22,8 @@ export const PacksControls = () => {
         console.log(newValue)
     };
 
+    console.log(idUser);
+
     return (
         <div>
             <div>

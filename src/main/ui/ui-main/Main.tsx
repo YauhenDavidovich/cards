@@ -21,7 +21,7 @@ const Main = () => {
                 <Route path='/login' render={() => <LoginForm />}/>
                 <Route path='/forgotPassword' render={() => <ForgotPage />}/>
                 <Route path='/set-new-password/:token' render={() => <NewPassword />}/>
-                <Route path='/profile' render={() => <Profile/>}/>
+                <Route exact path='/profile' render={() => <Profile/>}/>
                 <Route path='/packslist' render={() => <PacksList/>}/>
                 <Route path='/cards/:id' render={() => <CardsList/>}/>
                 <Route path='/test' render={() => <TestingSuperComponents/>}/>

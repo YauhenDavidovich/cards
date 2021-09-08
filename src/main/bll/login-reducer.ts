@@ -43,8 +43,11 @@ export const setIsLoggedIn = (isLoggedIn: boolean) => ({type: "SET_IS_LOGGED_IN"
 export const loginTC = (loginInfo: LogInType) => (dispatch: Dispatch<ActionsTypeLogin>) => {
     dispatch(setAppStatus("loading"))
     authAPI.login(loginInfo)
-        .then(() => {
+        .then((res) => {
+            console.log(res.data.verified)
+                // dispatch(setAuthUserData(loginInfo))
                 dispatch(setIsLoggedIn(true))
+                dispatch(setAuthUserData(res.data.email, res.data._id, res.data.verified))
                 dispatch(setAppStatus("succeeded"))
             }
         )

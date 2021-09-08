@@ -98,12 +98,16 @@ export const getPacks = (data: PacksRequestType): ThunkType => async (dispatch: 
 
 };
 
-export const deletePack = (packId: string) => (dispatch: ThunkActionType) => {
+export const deletePack = (packId: string, mePacks: boolean) => (dispatch: ThunkActionType, getState: () => AppStateType) => {
+    const userId = getState().login.idUser
+    console.log('userId: ', userId)
+    const test = mePacks ? userId : ''
+    console.log('test: ', test)
     dispatch(actions.setIsLoading("loading"))
     cardsPacksApi.deletePack(packId)
-        .then(() => {
+        .then((res) => {
             dispatch(actions.deletePacks(packId))
-            dispatch(getPacks({}))
+            dispatch(getPacks({user_id: test}))
             dispatch(actions.setIsLoading("succeeded"))
         })
 }

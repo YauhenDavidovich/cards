@@ -73,7 +73,7 @@ export const cardsPacksApi = {
         return instanceRemote.post<PacksResponseType>('cards/pack', {...pack})
     },
     deletePack(packId: string) {
-        return instanceRemote.delete<PacksResponseType>('cards/pack', {params: {packId}})
+        return instanceRemote.delete<PacksResponseType>('cards/pack', {params: {id: packId}})
     },
     updatePack(packId: string, name: string) {
         return instanceRemote.put<PacksResponseType>('cards/pack', {packId, name})
