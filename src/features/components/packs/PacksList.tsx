@@ -1,6 +1,5 @@
 import {PacksControls} from "./packsControls/packsControls";
-import {Button} from "../../../main/ui/commonStyle";
-import {AddPack} from "./AddPack";
+import {AddPack} from "./AddPack/AddPack";
 import Grid from "@material-ui/core/Grid";
 import {PacksTable} from "./PackTable";
 
