@@ -1,8 +1,13 @@
 import {cardsPacksApi, PacksRequestType, PacksResponseType, PackType} from "../dll/cardsPacksApi";
 import {AppStateType, InferActionTypes} from "./store";
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
-import {Dispatch} from "redux";
-import {AppSetStatusType, setErrorMessage, SetErrorMessageType, setForgotStatus} from "./forgotReducer";
+import {
+    AppSetStatusType,
+    RequestStatusType,
+    setErrorMessage,
+    SetErrorMessageType,
+    setForgotStatus
+} from "./forgotReducer";
 
 export type PacksType = {
     cardPacks: Array<PackType>,
@@ -13,6 +18,7 @@ export type PacksType = {
     pageSize: number,
     token: string,
     tokenDeathTime: number,
+    isLoading: RequestStatusType
 }
 
 let initialState: PacksType = {
@@ -24,7 +30,7 @@ let initialState: PacksType = {
     pageSize: 10,
     token: '',
     tokenDeathTime: 0,
-    // isLoading: false
+    isLoading: 'idle' as RequestStatusType
 };
 
 type InitialStateType = typeof initialState
@@ -67,6 +73,8 @@ export const packsReducer = (state = initialState, action: PacksCardsActionType)
                 ...copyState,
                 cardPacks: [newPack, ...state.cardPacks]
             }
+        case "path/SET_IS_LOADING":
+            return {...state, isLoading: action.status }
         default:
             return state
     }
@@ -77,7 +85,7 @@ export const actions = {
     setPacks: (packs: PacksResponseType) => ({type: "packs/SET-PACKS", packs} as const),
     deletePacks: (id: string) => ({type: "packs/DELETE-PACK", id} as const),
     addPack: (packName: string) => ({type: "packs/ADD-PACK", packName} as const),
-   /* isLoading: (isLoading: boolean) => ({ "packs/IS-LOADING", isLoading } as const)*/
+    setIsLoading: (status: RequestStatusType) => ({type: "path/SET_IS_LOADING", status} as const)
 }
 
 //thunks
@@ -90,27 +98,18 @@ export const getPacks = (data: PacksRequestType): ThunkType => async (dispatch: 
 
 };
 
-export const deletePack = (packId: string) => (dispatch: Dispatch) => {
-    debugger;
-    dispatch(setForgotStatus("loading"))
+export const deletePack = (packId: string) => (dispatch: ThunkActionType) => {
+    dispatch(actions.setIsLoading("loading"))
     cardsPacksApi.deletePack(packId)
-        .then(res => {
-            debugger;
-            console.log(res.data.cardPacksTotalCount)
+        .then(() => {
+            dispatch(actions.deletePacks(packId))
+            dispatch(getPacks({}))
+            dispatch(actions.setIsLoading("succeeded"))
         })
 }
 
-// export const deletePack = (id: string): ThunkType => async (dispatch: ThunkActionType) => {
-//     cardsPacksApi.deletePack(id)
-//         .then(() => {
-//                 dispatch(actions.deletePacks(id))
-//             }
-//         )
-//
-// };
-
 export const addPack = (packName: string) => (dispatch: ThunkActionType) => {
-    dispatch(setForgotStatus("loading"))
+    dispatch(actions.setIsLoading("loading"))
     cardsPacksApi.addPack({
         cardsPack: {
             name: packName,
@@ -133,7 +132,6 @@ export const addPack = (packName: string) => (dispatch: ThunkActionType) => {
         })
         .catch(error => {
             dispatch(setErrorMessage(error.message ? error.message : "Network error occurred!"));
-            dispatch(setForgotStatus("failed"))
         })
 }
 

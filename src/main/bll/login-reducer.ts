@@ -1,5 +1,6 @@
-import {authAPI, InitialStateType} from "../dll/api";
+import {authAPI, InitialStateType, LogInType} from "../dll/api";
 import {Dispatch} from "redux";
+import {setAppStatus, SetAppStatusType} from "./app-reducer";
 
 let initialState = {
     email: "",
@@ -11,7 +12,7 @@ let initialState = {
 
 export const loginReducer = (state = initialState, action: ActionsTypeLogin): InitialStateType => {
     switch (action.type) {
-        case "SET-IS-LOGGED-IN":
+        case "SET_AUTH_USER_DATA":
             return {
                 ...state,
                 email: action.email,
@@ -19,33 +20,53 @@ export const loginReducer = (state = initialState, action: ActionsTypeLogin): In
                 isAuth: action.isAuth,
 
             };
+        case "SET_IS_LOGGED_IN": {
+            return {...state, isAuth: action.isLoggedIn}
+        }
         default:
             return state;
     }
 };
 
 
-
 // actions
-export const setAuthUserData = (email: string, _id: string, isAuth: boolean) =>
-    ({type: "SET-IS-LOGGED-IN", email, _id, isAuth} as const)
+export const setAuthUserData = (email: string, _id: string, isAuth: boolean) => ({
+    type: "SET_AUTH_USER_DATA",
+    email,
+    _id,
+    isAuth
+} as const);
+export const setIsLoggedIn = (isLoggedIn: boolean) => ({type: "SET_IS_LOGGED_IN", isLoggedIn} as const);
 
 
 // thunks
-export const loginTC = (email: string, password: string, rememberMe: boolean) => async(dispatch: Dispatch<ActionsTypeLogin>) => {
-
-    authAPI.login(email, password, rememberMe)
-        .then(res => {
-                dispatch(setAuthUserData(res.data.email, res.data._id, true))
+export const loginTC = (loginInfo: LogInType) => (dispatch: Dispatch<ActionsTypeLogin>) => {
+    dispatch(setAppStatus("loading"))
+    authAPI.login(loginInfo)
+        .then(() => {
+                dispatch(setIsLoggedIn(true))
+                dispatch(setAppStatus("succeeded"))
             }
         )
         .catch((e) => {
-            const error = e.response ? e.response.data.error: (e.message + ', more details in the console');
-            alert(error)
+            const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
+            alert(error);
             console.log('Error: ', {...e})
         })
-
 }
 
+export const logOut = () => (dispatch: Dispatch) => {
+    dispatch(setAppStatus("loading"))
+    authAPI.logout()
+        .then(() => {
+            dispatch(setIsLoggedIn(false))
+            dispatch(setAppStatus("succeeded"))
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
 
-type ActionsTypeLogin = ReturnType<typeof setAuthUserData>
+export type SetAuthUserDataType = ReturnType<typeof setAuthUserData>;
+export type SetIsLoggedInType = ReturnType<typeof setIsLoggedIn>;
+type ActionsTypeLogin = SetAuthUserDataType | SetIsLoggedInType | SetAppStatusType;

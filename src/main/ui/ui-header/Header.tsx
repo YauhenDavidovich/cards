@@ -3,9 +3,12 @@ import {HeaderContainer, HeaderWrapper, LogoImg, LogoLinkBlock, LogoText, MenuNa
 import logo from '../../../images/logo.png'
 import {FlexRowCenter, Button} from '../commonStyle';
 import {NavLink, useHistory} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {AppStateType} from "../../bll/store";
 
 const Header = () => {
 
+    const isLoggedIn = useSelector<AppStateType, boolean>(state => state.login.isAuth);
     const history = useHistory();
     return (
         <HeaderWrapper>
@@ -23,6 +26,8 @@ const Header = () => {
                     <MenuNavLink to="/packslist">Packs</MenuNavLink>
                     <MenuNavLink to="/cards">Cards</MenuNavLink>
                     <Button as={NavLink} to='/signup' color={"blue"} onClick={()=> history.push('/signup')}>Sign up</Button>
+                    {isLoggedIn && <Button as={NavLink} to='/login' color={"blue"}>Log out</Button> }
+{/*onClick={logOutHandler}*/}
 
                 </FlexRowCenter>
             </HeaderContainer>

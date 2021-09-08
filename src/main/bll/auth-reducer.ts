@@ -14,7 +14,7 @@ let initialState: AuthType = {
     email: '',
     login: '',
     isAuth: false,
-    isRegistered: true
+    isRegistered: false
 };
 
 
@@ -33,21 +33,21 @@ export const authReducer = (state = initialState, action: ActionRegistrationType
 };
 
 //action
-export const onRegistration = () =>
-    ({type: 'AUTH-REDUCER/REGISTRATION'} as const)
+export const onRegistration = () => ({type: 'AUTH-REDUCER/REGISTRATION'} as const);
 
 
 //thunks
 
 export const onRegistrationTS = (email: string, password: string) => async (dispatch: Dispatch<ActionRegistrationType>) => {
-    try {
-        const response = await authAPI.register(email, password)
-        dispatch(onRegistration())
-    } catch (e) {
-        if (e && email === email) {
+    authAPI.register(email, password)
+        .then(() => {
             dispatch(onRegistration())
-        }
-    }
+        })
+        .catch(error => {
+            if (error && email === email) {
+                dispatch(onRegistration())
+            }
+        })
 }
 
 // type action

@@ -5,6 +5,7 @@ import {useFormik} from "formik";
 import {onRegistrationTS} from "../../../main/bll/auth-reducer";
 import {SignIn} from "./SignIn";
 import {FlexColumnCenter} from "../../../main/ui/commonStyle";
+import {Redirect} from "react-router-dom";
 
 
 export type RegistrationInitValueType = {
@@ -55,9 +56,9 @@ export const SignInContainer: React.FC = () => {
         },
     })
 
-    // if (isRegistered) {
-    //     return <Redirect to={"/login"} />
-    // }
+    if (isRegistered) {
+        return <Redirect to={"/login"} />
+    }
     return (
         <FlexColumnCenter>
 

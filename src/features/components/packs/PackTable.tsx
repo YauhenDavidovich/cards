@@ -122,8 +122,6 @@ export const TablePacks: React.FC<TablePacksPropsType> = ({cardPacks}) => {
                                         () => {
                                             console.log(rowData._id)
                                             dispatch(deletePack(rowData._id))
-                                            /*dispatch(deletePack(rowData._id))
-                                            dispatch(getPacks({pageCount: 100}))*/
                                         }
                                     }
                                 >

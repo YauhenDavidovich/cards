@@ -6,7 +6,7 @@ import {authAPI} from "../dll/api";
 const initialState = {
     status: 'idle' as RequestStatusType,
     error: null as string | null,
-    isInitialized: false
+    isInitialized: true
 }
 
 export type InitialStateType = typeof initialState;
@@ -36,6 +36,8 @@ export const initialiseApp = () => (dispatch: Dispatch) => {
     authAPI.me()
         .then(res => {
             console.log(res.data.publicCardPacksCount)
+            dispatch(setAppInitialised(true))
+
             /*if(res.data.resultCode === 0) {
                 dispatch(setIsloggedInAC({value: true}))
             } else {
