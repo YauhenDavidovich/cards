@@ -4,19 +4,23 @@ import {loginReducer} from "./login-reducer";
 import {authReducer} from "./auth-reducer";
 import {forgotReducer} from "./forgotReducer";
 import {setNewPasswordReducer} from "./setNewPasswordReducer";
-import {paginationReducer} from "../../features/components/Pagination/paginationReducer";
+import {cardsReducer} from "./cardsReducer";
 import {packsReducer} from "./pacsReducer";
+
 
 const rootReducer = combineReducers({
     auth: authReducer,
     forgot: forgotReducer,
     newPassword: setNewPasswordReducer,
     login: loginReducer,
-    pagination: paginationReducer,
-    packs: packsReducer
+    cards: cardsReducer,
+    packsReducer: packsReducer
 });
 
 export type AppStateType = ReturnType<typeof rootReducer>
+
+type PropertiesType<T> = T extends { [key: string]: infer U } ? U : never;
+export type InferActionTypes<T extends {[key: string]: (...args:any)=> any}> = ReturnType<PropertiesType<T>>
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 export default

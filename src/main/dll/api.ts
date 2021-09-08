@@ -12,19 +12,19 @@ type ResponseType = {
     _id: string
     email: string
     name: string
-    token: string
+    avatar?: string
     publicCardPacksCount: number
     created: Date
     updated: Date
     isAdmin: boolean
     verified: boolean
     rememberMe: boolean
-    error?: string
-    tokenDeathTime: number
+    error?: string;
 }
 
 const instance = axios.create({
-    baseURL: "https://neko-back.herokuapp.com/2.0",
+    baseURL:
+        "http://localhost:7542/2.0/",
     withCredentials: true
 });
 
@@ -33,7 +33,7 @@ export const authAPI = {
         return instance.post<ResponseType>(`auth/login`, {email, password, rememberMe})},
 
     me(){
-        return instance.post<ResponseType>('/auth/me')
+        return instance.post<ResponseType>('auth/me')
             .then(response => response.data)
     },
     logout() {
@@ -41,7 +41,7 @@ export const authAPI = {
             .then(response => response.data)
     },
     register(email:string, password: string) {
-        return instance.post('/auth/register', {email,password})
+        return instance.post('auth/register', {email,password})
             .then(response => response.data)
     }
 };

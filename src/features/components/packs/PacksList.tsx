@@ -1,17 +1,16 @@
 import {PacksControls} from "./packsControls/packsControls";
 import {Button} from "../../../main/ui/commonStyle";
 import {AddPack} from "./AddPack";
+import Grid from "@material-ui/core/Grid";
 import {PacksTable} from "./PackTable";
-import Pagination from "../Pagination/Pagination";
-import SearchField from "../SearchField/SearchField";
+
 export const PacksList = () => {
 
     return (
-        <div>
-            <SearchField />
+        <Grid container direction={"row"} justifyContent={"space-between"} alignItems="center">
             <PacksControls/>
             <PacksContainer/>
-        </div>
+        </Grid>
     )
 }
 
@@ -21,7 +20,6 @@ export const PacksContainer = () => {
         <div>
             <AddPack/>
             <PacksTable/>
-            <Pagination />
         </div>
     )
 }
