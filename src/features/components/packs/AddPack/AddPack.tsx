@@ -3,6 +3,7 @@ import {useFormik} from "formik";
 import s from './AddPack.module.css';
 import {useDispatch} from "react-redux";
 import {addPack} from "../../../../main/bll/pacsReducer";
+import ErrorSnackbar from "../../recoveryPass/ErrorSnackBar";
 
 //types
 type FormikValuesType = {
@@ -53,6 +54,8 @@ export const AddPack = () => {
             {formik.errors.newPackName && formik.touched.newPackName ? <div className={s.errorStyle}>{formik.errors.newPackName}</div> : null}
             <Button type="submit" className={s.addBtnStyle}>Add Pack</Button>
             {/*<button type='submit'>add pack</button>*/}
+            <ErrorSnackbar />
+
         </form>
         // </div>
     )

@@ -2,6 +2,7 @@ import {cardsPacksApi, PacksRequestType, PacksResponseType, PackType} from "../d
 import {AppStateType, InferActionTypes} from "./store";
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {Dispatch} from "redux";
+import {AppSetStatusType, setErrorMessage, SetErrorMessageType, setForgotStatus} from "./forgotReducer";
 
 export type PacksType = {
     cardPacks: Array<PackType>,
@@ -19,10 +20,11 @@ let initialState: PacksType = {
     cardPacksTotalCount: 0,
     maxGrade: 0,
     minGrade: 0,
-    currentPage: 1,
+    currentPage: 277,
     pageSize: 10,
     token: '',
-    tokenDeathTime: 0
+    tokenDeathTime: 0,
+    // isLoading: false
 };
 
 type InitialStateType = typeof initialState
@@ -40,7 +42,7 @@ export const packsReducer = (state = initialState, action: PacksCardsActionType)
         case "packs/DELETE-PACK":
             return {
                 ...state,
-                cardPacks: state.cardPacks.filter((cardPack)=>cardPack._id===action.id)
+                cardPacks: state.cardPacks.filter((cardPack) => cardPack._id === action.id)
             }
         case "packs/ADD-PACK":
             const newPack: PackType = {
@@ -74,7 +76,8 @@ export const packsReducer = (state = initialState, action: PacksCardsActionType)
 export const actions = {
     setPacks: (packs: PacksResponseType) => ({type: "packs/SET-PACKS", packs} as const),
     deletePacks: (id: string) => ({type: "packs/DELETE-PACK", id} as const),
-    addPack: (packName: string) => ({ type: "packs/ADD-PACK", packName } as const)
+    addPack: (packName: string) => ({type: "packs/ADD-PACK", packName} as const),
+   /* isLoading: (isLoading: boolean) => ({ "packs/IS-LOADING", isLoading } as const)*/
 }
 
 //thunks
@@ -87,37 +90,54 @@ export const getPacks = (data: PacksRequestType): ThunkType => async (dispatch: 
 
 };
 
-export const deletePack = (id: string): ThunkType => async (dispatch: ThunkActionType) => {
-    cardsPacksApi.deletePack(id)
-        .then(() => {
-                dispatch(actions.deletePacks(id))
-            }
-        )
-
-};
-
-
-/*export type PacksRequestType = {
-    packName?: string
-    min?: number
-    max?: number
-    sortPacks?: string
-    page?: number
-    pageCount?: number
-    user_id?: string
-}*/
-export const addPack = (packName: string) => (dispatch: Dispatch) => {
-    cardsPacksApi.addPack(packName)
+export const deletePack = (packId: string) => (dispatch: Dispatch) => {
+    debugger;
+    dispatch(setForgotStatus("loading"))
+    cardsPacksApi.deletePack(packId)
         .then(res => {
-            if(res.data.cardPacks) {
-                dispatch(actions.addPack(packName))
-                // const { minCardsCount, maxCardsCount, page, pageCount } = res.data;
-                //
-                // dispatch(getPacks({packName, min, max, page, pageCount}))
-            }
+            debugger;
+            console.log(res.data.cardPacksTotalCount)
         })
 }
 
+// export const deletePack = (id: string): ThunkType => async (dispatch: ThunkActionType) => {
+//     cardsPacksApi.deletePack(id)
+//         .then(() => {
+//                 dispatch(actions.deletePacks(id))
+//             }
+//         )
+//
+// };
+
+export const addPack = (packName: string) => (dispatch: ThunkActionType) => {
+    dispatch(setForgotStatus("loading"))
+    cardsPacksApi.addPack({
+        cardsPack: {
+            name: packName,
+            path: 'def',
+            grade: 0,
+            shots: 0,
+            private: true,
+            type: "pack",
+            rating: 0,
+            deckCover: ""
+        }
+    })
+        .then(res => {
+
+            if (res.status === 201 || res.status === 200) {
+                dispatch(setForgotStatus("succeeded"))
+                dispatch(actions.addPack(packName))
+                dispatch(getPacks({}))
+            }
+        })
+        .catch(error => {
+            dispatch(setErrorMessage(error.message ? error.message : "Network error occurred!"));
+            dispatch(setForgotStatus("failed"))
+        })
+}
+
+// type IsLoadingPacksType = ReturnType<typeof actions.isLoading>
 type ThunkType = ThunkAction<void, AppStateType, any, PacksCardsActionType>;
-type PacksCardsActionType = InferActionTypes<typeof actions>;
+type PacksCardsActionType = InferActionTypes<typeof actions> | SetErrorMessageType | AppSetStatusType;
 type ThunkActionType = ThunkDispatch<AppStateType, unknown, PacksCardsActionType>;

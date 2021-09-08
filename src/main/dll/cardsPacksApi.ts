@@ -49,7 +49,7 @@ export type PacksRequestType = {
     user_id?: string
 }
 
-export type RequestAddPackType = {
+export type CardsPackType = {
     cardsPack: {
         name: string
         path?: string
@@ -60,7 +60,7 @@ export type RequestAddPackType = {
         private?: boolean
         type?: string
     }
-}
+    }
 
 export const cardsPacksApi = {
     getPacks(params: PacksRequestType) {
@@ -68,11 +68,11 @@ export const cardsPacksApi = {
             params: {...params}
         }).then(response => response.data);
     },
-    addPack(packName: string) {
-        return instance.post<PacksResponseType>('cards/pack', {packName})
+    addPack(data: CardsPackType) {
+        return instance.post<PacksResponseType>('cards/pack', data)
     },
     deletePack(packId: string) {
-        return instance.delete<PacksResponseType>('cards/pack', {params: {packId}})
+        return instance.delete<PacksResponseType>('cards/pack', {params: {id: packId}})
     },
     updatePack(packId: string, name: string) {
         return instance.put<PacksResponseType>('cards/pack', {packId, name})

@@ -4,15 +4,18 @@ import {deletePack, getPacks} from "../../../main/bll/pacsReducer";
 import {AppStateType} from "../../../main/bll/store";
 import {H3} from "../../../main/ui/commonStyle";
 import MaterialTable from "material-table";
-import {IconButton} from "@material-ui/core";
+import IconButton from "@material-ui/core/IconButton";
 import UpdateIcon from '@material-ui/icons/Update';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import {PackType} from "../../../main/dll/cardsPacksApi";
 
+
 export const PacksTable = () => {
 
+    const myId = useSelector<AppStateType, string>(state => state.auth.idUser);
+    console.log(myId)
     const dispatch = useDispatch()
     const {
         cardPacksTotalCount,
@@ -21,12 +24,12 @@ export const PacksTable = () => {
     } = useSelector((store: AppStateType) => store.packsReducer)
 
     useEffect(() => {
-        dispatch(getPacks({}));
+        dispatch(getPacks({user_id: myId}));
     }, [dispatch])
 
 
     let pagesCount = Math.ceil(cardPacksTotalCount / pageSize)//data for paginator -
-    console.log(cardPacks)
+    // console.log(cardPacks)
     return (
         <Container maxWidth="lg" style={{background: "white", height: "50vh"}}>
             <Grid container direction={"column"} justifyContent={"center"} alignItems="center" spacing={3}>
@@ -41,15 +44,12 @@ export const PacksTable = () => {
                 }
             </Grid>
         </Container>
+    )}
 
-
-    )
-}
 
 export type TablePacksPropsType = {
     cardPacks: Array<PackType>
 }
-
 
 export const TablePacks: React.FC<TablePacksPropsType> = ({cardPacks}) => {
     const dispatch = useDispatch();
@@ -64,7 +64,6 @@ export const TablePacks: React.FC<TablePacksPropsType> = ({cardPacks}) => {
                     {
                         title: "Delete pack",
                         field: "internal_action",
-                        // editable: false,
                         render: (rowData) =>
                             rowData && (
                                 <IconButton
@@ -73,7 +72,8 @@ export const TablePacks: React.FC<TablePacksPropsType> = ({cardPacks}) => {
                                         () => {
                                             console.log(rowData._id)
                                             dispatch(deletePack(rowData._id))
-                                            dispatch(getPacks({pageCount: 100}))
+                                            /*dispatch(deletePack(rowData._id))
+                                            dispatch(getPacks({pageCount: 100}))*/
                                         }
                                     }
                                 >
