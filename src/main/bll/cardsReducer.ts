@@ -6,28 +6,29 @@ import {
     UpdateCardRequestType
 } from "../dll/cardsApi";
 import {AppStateType} from "./store";
+import {ThunkAction, ThunkDispatch} from "redux-thunk";
 
 
-let initialState  = {
+let initialState = {
     user_name: '',
     id: '',
-   cards: [
-       {
-           _id: "23432234",
-           cardsPack_id: '',
-           updated: "No_data",
-           created: "No_data",
-           answer: 'no answer',
-           question: 'no question',
-           grade: 2,
-           rating: 5,
-           shots: 3,
-           type: "No_data",
-           user_id: "453453453",
+    cards: [
+        {
+            _id: "23432234",
+            cardsPack_id: '',
+            updated: "No_data",
+            created: "No_data",
+            answer: 'no answer',
+            question: 'no question',
+            grade: 2,
+            rating: 5,
+            shots: 3,
+            type: "No_data",
+            user_id: "453453453",
 
 
-       }
-   ] as Array<CardsType>,
+        }
+    ] as Array<CardsType>,
     cardsTotalCount: 3,
     maxGrade: 4.987525071790364,
     minGrade: 2.0100984354076568,
@@ -36,33 +37,10 @@ let initialState  = {
     packUserId: " "
 
 
-
 };
 
 
-
-// export type CardType = {
-//     _id: string
-//     name: string
-//     cardsCount: number
-//     updated: string
-//     created: string
-//     grade: number
-//     more_id: string
-//     path: string
-//     private: boolean
-//     rating: number
-//     shots: number
-//     type: string
-//     user_id: string
-//     user_name: string
-// }
-
-
 type InitialStateType = typeof initialState
-
-
-
 
 
 export const cardsReducer = (state: InitialStateType = initialState, action: ActionCardsType): InitialStateType => {
@@ -76,13 +54,13 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Act
     }
 }
 
-type ActionCardsType = ReturnType<typeof setCards>
-| ReturnType<typeof setCurrentPack>
+
+
 
 
 //Action Create
 
-export const setCards = (cards: GetCardsResponseType ) => ({type: "PACKS/SET-CARDS", cards} as const);
+export const setCards = (cards: GetCardsResponseType) => ({type: "PACKS/SET-CARDS", cards} as const);
 export const setCurrentPack = (data: { id: string, name: string }) => ({
     type: "SET-CURRENT-PACK",
     data
@@ -91,26 +69,30 @@ export const setCurrentPack = (data: { id: string, name: string }) => ({
 
 //Thunks
 
-export const getCardsThunk = (cardsId: string) => async (dispatch: Dispatch) => {
-    try{
+export const getCardsThunk = (cardsId: string): ThunkType => async (dispatch: Dispatch) => {
+    try {
 
         const data = await cardsApi.getCards(cardsId)
         dispatch(setCards(data))
     } catch (e) {
+        console.log("Error" + e)
 
     }
-
-
 
 
 }
 
 
-export const CreateCardThunk = (cards: CreateCardRequestType) => async (dispatch: Dispatch<ActionCardsType>) => {
+export const CreateCardThunk = (cardsPackId: string): ThunkType => async (dispatch: ThunkActionType) => {
+    const addCard = {
+        cardsPack_id: cardsPackId,
+        question: '',
+        answer: ''
+    } as CreateCardRequestType
 
     try {
-        const data = await cardsApi.createCard(cards)
-        dispatch(setCards(data.card))
+        const data = await cardsApi.createCard(addCard)
+         await dispatch(getCardsThunk(cardsPackId))
     } catch (e) {
         console.log("Error" + e)
     }
@@ -118,13 +100,11 @@ export const CreateCardThunk = (cards: CreateCardRequestType) => async (dispatch
 
 }
 
-export const DeleteCardsThunk = (id: string) => async (dispatch: Dispatch) => {
+export const DeleteCardsThunk = (id: string): ThunkType => async (dispatch: ThunkActionType) => {
     cardsApi.deleteCard(id)
         .then(response =>
             dispatch(setCards(response.data.id))
         ).catch(e => {
-        const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
-        alert(error)
         console.log('Error: ', {...e})
 
     })
@@ -132,19 +112,36 @@ export const DeleteCardsThunk = (id: string) => async (dispatch: Dispatch) => {
 }
 
 
-export const upDateCardThunk = (card: UpdateCardRequestType) => async (dispatch: Dispatch) => {
-    // cardsApi.updateCard(card)
-    //     .then(data =>
-    //    // await dispatch(getCardsThunk(data.data.card))
-    //     .catch((e) => {
-    //         // const error = e.response
-    //         //     ? e.response.data.error
-    //         //     : (e.message + ', more details in the console');
-    //         console.log('Error: ', {...e})
+export const upDateCardThunk = (cardsId: string): ThunkType => async (dispatch: ThunkActionType) => {
+    const upDateCard = {
+        _id: '',
+        question: '',
+        comments: ''
 
-
-
+    }
+    try {
+        const data = await cardsApi.updateCard(upDateCard)
+        await dispatch (getCardsThunk(cardsId))
+    } catch (e) {
+        console.log('Error: ', {...e})
+    }
 }
+
+type ActionCardsType = ReturnType<typeof setCards>
+    | ReturnType<typeof setCurrentPack>
+
+
+type ThunkType = ThunkAction<void, AppStateType, any, ActionCardsType>
+type ThunkActionType = ThunkDispatch<AppStateType, unknown, ActionCardsType>
+
+
+
+
+
+
+
+
+
 
 
 

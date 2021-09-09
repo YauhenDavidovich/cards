@@ -22,7 +22,7 @@ export const CardsList = () => {
     }, [])
 
     const updateCardHandler = useCallback((_id: string) => {
-        // dispatch(upDateCardThunk(_id))
+    dispatch(upDateCardThunk(_id))
 
     }, [])
 
