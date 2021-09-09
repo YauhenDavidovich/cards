@@ -3,25 +3,11 @@ import {RequestStatusType, setErrorMessage, setForgotStatus} from "./forgotReduc
 import {authAPI} from "../dll/api";
 import {setAuthUserData, setIsLoggedIn} from "./login-reducer";
 
-/*export type UserDataType = {
-    _id: string
-    name: string
-    email: string
-    avatar: string | null
-    publicCardPacksCount: number
-}*/
 
 const initialState = {
     status: 'idle' as RequestStatusType,
     error: null as string | null,
     isInitialized: false,
-    /*userData: {
-        _id: '',
-        name: '',
-        email: '',
-        avatar: '',
-        publicCardPacksCount: 0
-    }*/
 }
 
 export type InitialStateType = typeof initialState;
@@ -35,8 +21,6 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
             return {...state, error: action.error}
         case "app/SET_APP_IS_INITIALISED":
             return {...state, isInitialized: action.isInitialised}
-        case "app/SET_USER_DATA":
-            return {...state, userData: action.userData}
         default:
             return state;
     }
@@ -50,7 +34,6 @@ export const setAppInitialised = (isInitialised: boolean) => ({
     type: 'app/SET_APP_IS_INITIALISED',
     isInitialised
 } as const);
-export const setUserData = (userData: UserDataType) => ({type: 'app/SET_USER_DATA', userData} as const);
 
 
 export const initialiseApp = () => (dispatch: Dispatch) => {
@@ -80,6 +63,6 @@ export const initialiseApp = () => (dispatch: Dispatch) => {
 export type SetAppStatusType = ReturnType<typeof setAppStatus>;
 export type SetAppErrorType = ReturnType<typeof setAppError>;
 export type SetAppInitialisedType = ReturnType<typeof setAppInitialised>;
-export type SetUserDataType = ReturnType<typeof setUserData>;
 
-export type ActionsType = SetAppStatusType | SetAppErrorType | SetAppInitialisedType | SetUserDataType;
+
+export type ActionsType = SetAppStatusType | SetAppErrorType | SetAppInitialisedType;
