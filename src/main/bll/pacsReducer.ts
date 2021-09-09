@@ -117,7 +117,7 @@ export const deletePack = (packId: string, mePacks: boolean) => (dispatch: Thunk
 }
 
 export const addPack = (packName: string) => (dispatch: ThunkActionType) => {
-    debugger
+
     dispatch(actions.setIsLoading("loading"))
     cardsPacksApi.addPack({
         cardsPack: {
@@ -132,7 +132,6 @@ export const addPack = (packName: string) => (dispatch: ThunkActionType) => {
         }
     })
         .then(res => {
-            debugger
 
             if (res.status === 201 || res.status === 200) {
                 dispatch(setForgotStatus("succeeded"))

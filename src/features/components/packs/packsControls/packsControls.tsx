@@ -13,10 +13,9 @@ export const PacksControls = () => {
     const [value, setValue] = useState([0, 9]);
     const [min, max] = [value[0], value[1]]
 
-    useEffect(() => {
+    /*useEffect(() => {
         dispatch(getPacks({min:min, max: max}))
-    }, [value])
-
+    }, [value])*/
     const handleChange = (event: any, newValue: any) => {
         setValue(newValue);
         console.log(newValue)
