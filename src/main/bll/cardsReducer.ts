@@ -112,16 +112,18 @@ export const DeleteCardsThunk = (id: string): ThunkType => async (dispatch: Thun
 }
 
 
-export const upDateCardThunk = (cardsId: string): ThunkType => async (dispatch: ThunkActionType) => {
-    const upDateCard = {
-        _id: '',
-        question: '',
-        comments: ''
+export const upDateCardThunk = (cardsId: string, cardsPack_id: string): ThunkType => async (dispatch: ThunkActionType) => {
 
+    const upDateCard = {
+        _id: cardsId,
+        question: 'fghfgh',
+        answer: "string",
+        comments: 'hgfhfg'
     }
+    console.log(upDateCard)
     try {
-        const data = await cardsApi.updateCard(upDateCard)
-        await dispatch (getCardsThunk(cardsId))
+        await cardsApi.updateCard(upDateCard)
+        await dispatch(getCardsThunk(cardsPack_id))
     } catch (e) {
         console.log('Error: ', {...e})
     }

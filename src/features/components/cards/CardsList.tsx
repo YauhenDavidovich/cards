@@ -5,6 +5,7 @@ import {CardsType} from "../../../main/dll/cardsApi";
 import {CreateCardThunk, DeleteCardsThunk, getCardsThunk, upDateCardThunk} from "../../../main/bll/cardsReducer";
 import {Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 import {useParams} from "react-router-dom";
+import {PackType} from "../../../main/dll/cardsPacksApi";
 
 
 export const CardsList = () => {
@@ -22,7 +23,7 @@ export const CardsList = () => {
 
 
     const addCardHandler = useCallback(() => {
-        dispatch(CreateCardThunk(cardsPackId))
+        dispatch(CreateCardThunk(id))
     }, [])
 
     const deleteCardHandler = useCallback((id: string, cardsId: string) => {
@@ -33,11 +34,12 @@ export const CardsList = () => {
 
     }, [])
 
-    const updateCardHandler = useCallback((_id: string, cardsId: string) => {
-        if (idUser === cards[0].user_id) {
-            dispatch(upDateCardThunk(_id))
-        }
-        dispatch(getCardsThunk(cardsId))
+    const updateCardHandler = useCallback((id: string, cardsPackId: string) => {
+        console.log(id)
+
+            dispatch(upDateCardThunk(id, cardsPackId))
+
+        // dispatch(getCardsThunk(cardsId))
     }, [])
 
     return (
