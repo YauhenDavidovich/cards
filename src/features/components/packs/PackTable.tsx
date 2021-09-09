@@ -28,6 +28,7 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import {Icons} from 'material-table';
+import Modal from "./modalPacks/Modal";
 
 const tableIcons: Icons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref}/>),
@@ -54,26 +55,21 @@ export const PacksTable = () => {
     const userId = useSelector<AppStateType, string>(state => state.auth.idUser);
     const dispatch = useDispatch()
     const {
-        cardPacksTotalCount,
-        cardPacks,
-        pageSize
+        cardPacks
     } = useSelector((store: AppStateType) => store.packs)
 
     useEffect(() => {
         dispatch(getPacks({}));
     }, [dispatch])
 
-
-    let pagesCount = Math.ceil(cardPacksTotalCount / pageSize)//data for paginator -
     return (
-        <Container maxWidth="lg" style={{background: "white", height: "50vh"}}>
-            <Grid container direction={"column"} justifyContent={"center"} alignItems="center" spacing={3}>
+            <>
                 {cardPacks!.length === 0 ? <H3>This user has no packs.</H3>
                     :
                     <TablePacks cardPacks={cardPacks}/>
+
                 }
-            </Grid>
-        </Container>
+            </>
     )}
 
 
@@ -91,7 +87,8 @@ export const TablePacks: React.FC<TablePacksPropsType> = ({cardPacks}) => {
 
     }
     return (
-        <div style={{maxWidth: '100%'}}>
+        <div >
+            {/*<Modal height={300} width={300} show={true}/>*/}
             <MaterialTable
                 icons={tableIcons}
                 columns={[

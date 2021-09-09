@@ -21,8 +21,7 @@ export const Span = styled.p`
   color: #898989;
 `;
 
-export const BlockWrapper = styled.div`
-    margin-bottom: 20px;
+export const BlockWrapper = styled.div`    
     width: 100%;
 `;
 export const FlexRowCenter = styled.div`
