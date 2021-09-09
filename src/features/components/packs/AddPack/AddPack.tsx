@@ -33,8 +33,6 @@ export const AddPack = () => {
         },
         validate,
         onSubmit: (values) => {
-
-            console.log(values.newPackName)
             dispatch(addPack(values.newPackName))
             formik.resetForm()
         },

@@ -8,7 +8,7 @@ export type InitialStateType = {
     isAuth: boolean
 }
 
-type ResponseType = {
+export type ResponseUserType = {
     _id: string
     email: string
     name: string
@@ -31,10 +31,10 @@ const instance = axios.create({
 
 export const authAPI = {
     login(logIn: LogInType) {
-        return instance.post<ResponseType>(`auth/login`, logIn)},
+        return instance.post<ResponseUserType>(`auth/login`, logIn)},
 
     me(){
-        return instance.post<ResponseType>('auth/me', {})
+        return instance.post<ResponseUserType>('auth/me', {})
     },
     logout() {
         return instance.delete<LogoutResponseType>(`auth/me`)

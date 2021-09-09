@@ -1,13 +1,27 @@
 import {Dispatch} from "redux";
-import {RequestStatusType} from "./forgotReducer";
+import {RequestStatusType, setErrorMessage, setForgotStatus} from "./forgotReducer";
 import {authAPI} from "../dll/api";
-import {setAuthUserData, setIsLoggedIn} from "./login-reducer";
+import {setIsLoggedIn} from "./login-reducer";
 
+export type UserDataType = {
+    _id: string
+    name: string
+    email: string
+    avatar: string | null
+    publicCardPacksCount: number
+}
 
 const initialState = {
     status: 'idle' as RequestStatusType,
     error: null as string | null,
-    isInitialized: false
+    isInitialized: false,
+    userData: {
+        _id: '',
+        name: '',
+        email: '',
+        avatar: '',
+        publicCardPacksCount: 0
+    }
 }
 
 export type InitialStateType = typeof initialState;
@@ -21,6 +35,8 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
             return {...state, error: action.error}
         case "app/SET_APP_IS_INITIALISED":
             return {...state, isInitialized: action.isInitialised}
+        case "app/SET_USER_DATA":
+            return {...state, userData: action.userData}
         default:
             return state;
     }
@@ -28,26 +44,50 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
 
 
 //action creators
-export const setAppStatus = (status: RequestStatusType) => ({ type: 'app/SET_APP_STATUS', status } as const);
-export const setAppError = (error: null | string) => ({ type: 'app/SET_APP_ERROR', error } as const);
-export const setAppInitialised = (isInitialised: boolean) => ({ type: 'app/SET_APP_IS_INITIALISED', isInitialised } as const);
+export const setAppStatus = (status: RequestStatusType) => ({type: 'app/SET_APP_STATUS', status} as const);
+export const setAppError = (error: null | string) => ({type: 'app/SET_APP_ERROR', error} as const);
+export const setAppInitialised = (isInitialised: boolean) => ({
+    type: 'app/SET_APP_IS_INITIALISED',
+    isInitialised
+} as const);
+export const setUserData = (userData: UserDataType) => ({type: 'app/SET_USER_DATA', userData} as const);
 
 
 export const initialiseApp = () => (dispatch: Dispatch) => {
+    dispatch(setAppStatus("loading"))
     authAPI.me()
         .then((res) => {
-            debugger;
-            dispatch(setAppInitialised(true))
-            dispatch(setAuthUserData(res.data.email, res.data._id, res.data.verified))
+            console.log(res.data);
+            if (res.status === 201 || res.status === 200) {
+
+                const storedData: UserDataType = {
+                    _id: res.data._id,
+                    name: res.data.name,
+                    email: res.data.email,
+                    avatar: res.data.avatar || null,
+                    publicCardPacksCount: res.data.publicCardPacksCount
+                }
+                dispatch(setUserData(storedData));
+                dispatch(setIsLoggedIn(true));
+                dispatch(setAppStatus("succeeded"));
+            }else{
+
+            }
         })
         .catch(error => {
-            console.log(error)
+            dispatch(setErrorMessage(error.message ? error.message : "Network error occurred!"));
+            dispatch(setForgotStatus("failed"))
         })
+        .finally(() => {
+            dispatch(setAppInitialised(true));
+        })
+
 };
 
 //types
 export type SetAppStatusType = ReturnType<typeof setAppStatus>;
 export type SetAppErrorType = ReturnType<typeof setAppError>;
 export type SetAppInitialisedType = ReturnType<typeof setAppInitialised>;
+export type SetUserDataType = ReturnType<typeof setUserData>;
 
-export type ActionsType = SetAppStatusType | SetAppErrorType | SetAppInitialisedType;
+export type ActionsType = SetAppStatusType | SetAppErrorType | SetAppInitialisedType | SetUserDataType;

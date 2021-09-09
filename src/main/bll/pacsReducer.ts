@@ -105,14 +105,19 @@ export const deletePack = (packId: string, mePacks: boolean) => (dispatch: Thunk
     console.log('test: ', test)
     dispatch(actions.setIsLoading("loading"))
     cardsPacksApi.deletePack(packId)
-        .then((res) => {
+        .then(() => {
             dispatch(actions.deletePacks(packId))
             dispatch(getPacks({user_id: test}))
             dispatch(actions.setIsLoading("succeeded"))
         })
+        .catch(error => {
+            dispatch(setErrorMessage(error.message ? error.message :"Network error occurred!"));
+            dispatch(setForgotStatus("failed"))
+        })
 }
 
 export const addPack = (packName: string) => (dispatch: ThunkActionType) => {
+    debugger
     dispatch(actions.setIsLoading("loading"))
     cardsPacksApi.addPack({
         cardsPack: {
@@ -127,6 +132,7 @@ export const addPack = (packName: string) => (dispatch: ThunkActionType) => {
         }
     })
         .then(res => {
+            debugger
 
             if (res.status === 201 || res.status === 200) {
                 dispatch(setForgotStatus("succeeded"))

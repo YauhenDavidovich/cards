@@ -1,6 +1,7 @@
 import {authAPI, InitialStateType, LogInType} from "../dll/api";
 import {Dispatch} from "redux";
 import {setAppStatus, SetAppStatusType} from "./app-reducer";
+import {setErrorMessage, setForgotStatus} from "./forgotReducer";
 
 let initialState = {
     email: "",
@@ -66,7 +67,8 @@ export const logOut = () => (dispatch: Dispatch) => {
             dispatch(setAppStatus("succeeded"))
         })
         .catch(error => {
-            console.log(error)
+            dispatch(setErrorMessage(error.message ? error.message :"Network error occurred!"));
+            dispatch(setForgotStatus("failed"))
         })
 }
 
