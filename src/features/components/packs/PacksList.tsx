@@ -6,9 +6,9 @@ import {PacksTable} from "./PackTable";
 export const PacksList = () => {
 
     return (
-        <Grid container spacing={3}  justifyContent={"space-between"} alignItems="center">
-            <Grid item xs={3}><PacksControls/></Grid>
-            <Grid item xs={10}><PacksContainer/></Grid>
+        <Grid container spacing={1}  justifyContent={"space-between"} alignItems="flex-start">
+            <Grid item xs={6} sm={2} md={8} lg={12} xl={3}><PacksControls/></Grid>
+            <Grid item xs={6} sm={10} md={4} lg={12} xl={9}><PacksContainer/></Grid>
         </Grid>
     )
 }
@@ -17,10 +17,12 @@ export const PacksList = () => {
 export const PacksContainer = () => {
 
     return (
-        <div>
-            <AddPack/>
-            <PacksTable/>
-        </div>
+        <Grid container spacing={2} direction={"column"}>
+            <Grid item xs ><AddPack/></Grid>
+            <Grid item xs ><PacksTable/></Grid>
+
+
+        </Grid>
     )
 }
 
