@@ -1,7 +1,7 @@
 import React, {useCallback, MouseEvent, useRef, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../main/bll/store";
-import {CardsType, CreateCardRequestType, UpdateCardRequestType} from "../../../main/dll/cardsApi";
+import {CardsType} from "../../../main/dll/cardsApi";
 import {CreateCardThunk, DeleteCardsThunk, getCardsThunk, upDateCardThunk} from "../../../main/bll/cardsReducer";
 import {Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 import {useParams} from "react-router-dom";
@@ -17,36 +17,27 @@ export const CardsList = () => {
     useEffect(() => {
         dispatch(getCardsThunk(id));
     }, [id])
+    const cardsPackId = useSelector<AppStateType, string>(state => state.cards.id)
+    const idUser = useSelector<AppStateType, string>(state => state.login.idUser)
 
 
     const addCardHandler = useCallback(() => {
-        const newCard: CreateCardRequestType = {
-            cardsPack_id: id,
-            grade: 1
-        }
-        //{}{
-        //     cardsPack_id: string
-        //     question?: string
-        //     answer?: string
-        //     grade: number
-        //     shots?: number
-        //     rating?: number
-        //     type?: string
-        // }
-        return dispatch(CreateCardThunk(newCard));
+        dispatch(CreateCardThunk(cardsPackId))
     }, [])
 
-    const deleteCardHandler = useCallback((e: MouseEvent<HTMLButtonElement>, id: string) => {
-        dispatch(DeleteCardsThunk(id))
+    const deleteCardHandler = useCallback((id: string, cardsId: string) => {
+        if (idUser === cards[0].user_id) {
+            dispatch(DeleteCardsThunk(id))
+        }
+        dispatch(getCardsThunk(cardsId))
 
     }, [])
 
-    const updateCardHandler = useCallback((e, id: string) => {
-        const updatedCard: UpdateCardRequestType = {
-            _id: id
+    const updateCardHandler = useCallback((_id: string, cardsId: string) => {
+        if (idUser === cards[0].user_id) {
+            dispatch(upDateCardThunk(_id))
         }
-        dispatch(upDateCardThunk(updatedCard))
-
+        dispatch(getCardsThunk(cardsId))
     }, [])
 
     return (
@@ -58,9 +49,11 @@ export const CardsList = () => {
                         <TableCell align="right">answer</TableCell>
                         <TableCell align="right">Grade</TableCell>
                         <TableCell align="right">Update</TableCell>
+
                         <Button variant="contained" onClick={addCardHandler}>
                             Add New Card
                         </Button>
+
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -71,9 +64,9 @@ export const CardsList = () => {
                             <TableCell align="right">{cards.updated.slice(0, 10)}</TableCell>
                             <TableCell align="right">{cards.grade}</TableCell>
                             <TableCell align="right">
-                                <Button onClick={e => deleteCardHandler(e, cards._id)}>
+                                <Button onClick={() => deleteCardHandler(cards._id, cards.cardsPack_id)}>
                                     Delete</Button>
-                                <Button onClick={e => updateCardHandler(e, cards._id)}>
+                                <Button onClick={() => updateCardHandler(cards._id, cards.cardsPack_id)}>
                                     Update</Button>
                             </TableCell>
                         </TableRow>
