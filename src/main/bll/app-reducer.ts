@@ -3,25 +3,25 @@ import {RequestStatusType, setErrorMessage, setForgotStatus} from "./forgotReduc
 import {authAPI} from "../dll/api";
 import {setAuthUserData, setIsLoggedIn} from "./login-reducer";
 
-export type UserDataType = {
+/*export type UserDataType = {
     _id: string
     name: string
     email: string
     avatar: string | null
     publicCardPacksCount: number
-}
+}*/
 
 const initialState = {
     status: 'idle' as RequestStatusType,
     error: null as string | null,
     isInitialized: false,
-    userData: {
+    /*userData: {
         _id: '',
         name: '',
         email: '',
         avatar: '',
         publicCardPacksCount: 0
-    }
+    }*/
 }
 
 export type InitialStateType = typeof initialState;
