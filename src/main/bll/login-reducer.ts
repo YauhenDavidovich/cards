@@ -10,6 +10,7 @@ let initialState = {
     isAuth: false
 };
 
+export type LoginInitialStateType = typeof initialState;
 
 export const loginReducer = (state = initialState, action: ActionsTypeLogin): InitialStateType => {
     switch (action.type) {
@@ -63,6 +64,7 @@ export const logOut = () => (dispatch: Dispatch) => {
     authAPI.logout()
         .then(() => {
             dispatch(setIsLoggedIn(false))
+            dispatch(setAuthUserData("", "",false))
             dispatch(setAppStatus("succeeded"))
         })
         .catch(error => {

@@ -7,8 +7,8 @@ export const PacksList = () => {
 
     return (
         <Grid container spacing={1}  justifyContent={"space-between"} alignItems="flex-start">
-            <Grid item xs={6} sm={2} md={8} lg={12} xl={3}><PacksControls/></Grid>
-            <Grid item xs={6} sm={10} md={4} lg={12} xl={9}><PacksContainer/></Grid>
+            <Grid item xs={4} sm={2} md={4} lg={4} xl={3}><PacksControls/></Grid>
+            <Grid item xs={6} sm={10} md={8} lg={9} xl={9}><PacksContainer/></Grid>
         </Grid>
     )
 }

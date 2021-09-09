@@ -3,13 +3,21 @@ import {HeaderContainer, HeaderWrapper, LogoImg, LogoLinkBlock, LogoText, MenuNa
 import logo from '../../../images/logo.png'
 import {FlexRowCenter, Button} from '../commonStyle';
 import {NavLink, useHistory} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../bll/store";
+import {logOut} from "../../bll/login-reducer";
 
 const Header = () => {
 
     const isLoggedIn = useSelector<AppStateType, boolean>(state => state.login.isAuth);
     const history = useHistory();
+    const dispatch = useDispatch();
+    async function handleLogout() {
+        dispatch(logOut());
+        history.push("/login");
+    }
+
+
     return (
         <HeaderWrapper>
             <HeaderContainer>
@@ -18,7 +26,7 @@ const Header = () => {
                     <LogoText>Cards</LogoText>
                 </LogoLinkBlock>
                 <FlexRowCenter>
-                    <MenuNavLink to='/login'>Log in</MenuNavLink>
+                    {/*<MenuNavLink to='/login'>Log in</MenuNavLink>*/}
                     <MenuNavLink to="/signup">Sign up</MenuNavLink>
                     <MenuNavLink to="/forgotPassword">Forgot</MenuNavLink>
                     <MenuNavLink to="/set-new-password">New password</MenuNavLink>
@@ -26,9 +34,9 @@ const Header = () => {
                     <MenuNavLink to="/packslist">Packs</MenuNavLink>
                     <MenuNavLink to="/cards">Cards</MenuNavLink>
                     <Button as={NavLink} to='/signup' color={"blue"} onClick={()=> history.push('/signup')}>Sign up</Button>
-                    {isLoggedIn && <Button as={NavLink} to='/login' color={"blue"}>Log out</Button> }
-{/*onClick={logOutHandler}*/}
-
+                    {isLoggedIn
+                        ? <Button color={"blue"} onClick={handleLogout}>Log out</Button>
+                        : <Button as={NavLink} to='/login' color={"blue"} onClick={handleLogout}>Log in</Button>}
                 </FlexRowCenter>
             </HeaderContainer>
         </HeaderWrapper>
