@@ -60,14 +60,6 @@ export const initialiseApp = () => (dispatch: Dispatch) => {
             console.log(res.data);
             if (res.status === 201 || res.status === 200) {
                 dispatch(setAuthUserData(res.data.email, res.data._id, res.data.verified))
-                /* const storedData: UserDataType = {
-                     _id: res.data._id,
-                     name: res.data.name,
-                     email: res.data.email,
-                     avatar: res.data.avatar || null,
-                     publicCardPacksCount: res.data.publicCardPacksCount
-                 }
-                 dispatch(setUserData(storedData));*/
                 dispatch(setIsLoggedIn(true));
                 dispatch(setAppStatus("succeeded"));
             } else {
