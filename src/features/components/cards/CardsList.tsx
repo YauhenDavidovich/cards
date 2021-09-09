@@ -2,28 +2,34 @@ import React, {useCallback} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../main/bll/store";
 import {CardsType} from "../../../main/dll/cardsApi";
-import {CreateCardThunk, DeleteCardsThunk, upDateCardThunk} from "../../../main/bll/cardsReducer";
+import {CreateCardThunk, DeleteCardsThunk, getCardsThunk, upDateCardThunk} from "../../../main/bll/cardsReducer";
 import {Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 
 
 export const CardsList = () => {
     const dispatch = useDispatch();
     const cards = useSelector<AppStateType, Array<CardsType>>(state => state.cards.cards);
-    const cardsPackId = useSelector<AppStateType>(state => state.cards.id)
+    const cardsPackId = useSelector<AppStateType, string>(state => state.cards.id)
+    const idUser = useSelector<AppStateType, string>(state => state.login.idUser)
 
 
     const addCardHandler = useCallback(() => {
-        dispatch(CreateCardThunk)
+        dispatch(CreateCardThunk(cardsPackId))
     }, [])
 
-    const deleteCardHandler = useCallback((id: string) => {
-        dispatch(DeleteCardsThunk(id))
+    const deleteCardHandler = useCallback((id: string, cardsId: string) => {
+        if (idUser === cards[0].user_id) {
+            dispatch(DeleteCardsThunk(id))
+        }
+        dispatch(getCardsThunk(cardsId))
 
     }, [])
 
-    const updateCardHandler = useCallback((_id: string) => {
-    dispatch(upDateCardThunk(_id))
-
+    const updateCardHandler = useCallback((_id: string, cardsId: string) => {
+        if (idUser === cards[0].user_id) {
+            dispatch(upDateCardThunk(_id))
+        }
+        dispatch(getCardsThunk(cardsId))
     }, [])
 
     return (
@@ -50,9 +56,9 @@ export const CardsList = () => {
                             <TableCell align="right">{cards.updated.slice(0, 10)}</TableCell>
                             <TableCell align="right">{cards.grade}</TableCell>
                             <TableCell align="right">
-                                <Button onClick={e => deleteCardHandler(cards._id)}>
+                                <Button onClick={() => deleteCardHandler(cards._id, cards.cardsPack_id)}>
                                     Delete</Button>
-                                <Button onClick={e => updateCardHandler(cards._id)}>
+                                <Button onClick={() => updateCardHandler(cards._id, cards.cardsPack_id)}>
                                     Update</Button>
 
                             </TableCell>
