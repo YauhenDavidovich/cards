@@ -11,14 +11,15 @@ export const PacksControls = () => {
         state.login.idUser)
     const dispatch = useDispatch()
 
-    const [value, setValue] = useState([0, 9]);
+    const [value, setValue] = useState([0, 10]);
     const [min, max] = [value[0], value[1]]
 
-    /*useEffect(() => {
-        dispatch(getPacks({min:min, max: max}))
-    }, [value])*/
+    // useEffect(() => {
+    //
+    // }, [value])
     const handleChange = (event: any, newValue: any) => {
         setValue(newValue);
+        dispatch(getPacks({min:min, max: max}))
         console.log(newValue)
     };
 
@@ -37,10 +38,10 @@ export const PacksControls = () => {
                         Show packs
                     </Typography>
                     <Button onClick={() => {
-                        dispatch(getPacks({user_id: idUser}))
+                        dispatch(getPacks({user_id: idUser, min: min, max: max }))
                     }} variant="contained" color="primary">My</Button>
                     <Button onClick={() => {
-                        dispatch(getPacks({}))
+                        dispatch(getPacks({min: min, max: max}))
                     }} variant="contained" color="secondary">All</Button>
                 </Grid>
                 <Grid container spacing={1} direction={"column"}>
