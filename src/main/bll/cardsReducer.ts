@@ -112,13 +112,12 @@ export const DeleteCardsThunk = (id: string): ThunkType => async (dispatch: Thun
 }
 
 
-export const upDateCardThunk = (cardsId: string, cardsPack_id: string): ThunkType => async (dispatch: ThunkActionType) => {
+export const upDateCardThunk = (cardsId: string, cardsPack_id: string, answer: string, question: string): ThunkType => async (dispatch: ThunkActionType) => {
 
     const upDateCard = {
         _id: cardsId,
-        question: 'fghfgh',
-        answer: "string",
-        comments: 'hgfhfg'
+        question: question,
+        answer: answer,
     }
     console.log(upDateCard)
     try {
