@@ -1,4 +1,4 @@
-import React, {forwardRef, useEffect} from 'react';
+import React, {forwardRef, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {deletePack, getPacks} from "../../../main/bll/pacsReducer";
 import {AppStateType} from "../../../main/bll/store";
@@ -28,6 +28,8 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import {Icons} from 'material-table';
+import ModalInput from "../modals/ModalInput";
+import ErrorSnackbar from "../modals/DeleteSnackBar";
 
 const tableIcons: Icons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref}/>),
@@ -51,7 +53,6 @@ const tableIcons: Icons = {
 
 export const PacksTable = () => {
 
-    const userId = useSelector<AppStateType, string>(state => state.auth.idUser);
     const dispatch = useDispatch()
     const {
         cardPacksTotalCount,
@@ -82,16 +83,36 @@ export type TablePacksPropsType = {
 }
 
 export const TablePacks: React.FC<TablePacksPropsType> = ({cardPacks}) => {
+    const userId = useSelector<AppStateType, string>(state => state.auth.idUser);
+    const packs = useSelector<AppStateType, PackType[]>(state => state.packs.cardPacks);
     const dispatch = useDispatch();
     const history = useHistory();
+    //useState hook for modal window
+    const [active, setActive] = useState(false);
+    const [isPublic, setIsPublic] = useState(false);
 
     const routeChange = (packId: string) => {
         let path = '/cards/' + packId
         history.push(path);
-
     }
+
+    //function to check if this pack is private or public
+    const checkPrivateOrPublic = (packId: string) => {
+        return packs.map(pack => {
+            // console.log(pack.user_id)
+            if(pack.user_id === userId) {
+                setIsPublic(false)
+                // setActive(true)
+                dispatch(deletePack(packId, true))
+            } else {
+                setIsPublic(true)
+            }
+        })
+    }
+
     return (
         <div style={{maxWidth: '100%'}}>
+            {isPublic && <ErrorSnackbar errorStatus={isPublic} changeErrorStatus={setIsPublic} />}
             <MaterialTable
                 icons={tableIcons}
                 columns={[
@@ -119,10 +140,8 @@ export const TablePacks: React.FC<TablePacksPropsType> = ({cardPacks}) => {
                                 <IconButton
                                     color="secondary"
                                     onClick={
-                                        () => {
-                                            console.log(rowData._id)
-                                            dispatch(deletePack(rowData._id, true))
-                                        }
+                                        () => checkPrivateOrPublic(rowData._id)
+                                        // { setActive(true)   } /* console.log(rowData._id) dispatch(deletePack(rowData._id, true))*/
                                     }
                                 >
                                     <DeleteIcon/>
@@ -146,6 +165,7 @@ export const TablePacks: React.FC<TablePacksPropsType> = ({cardPacks}) => {
                 ]}
                 data={[...cardPacks]}
             />
+            <ModalInput active={active} setActive={setActive}></ModalInput>
         </div>
     )
 }
