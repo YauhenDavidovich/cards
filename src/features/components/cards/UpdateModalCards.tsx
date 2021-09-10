@@ -10,8 +10,8 @@ import {Modal} from "./ModalCards";
 type UpdateCardsModalType = {
     show: boolean
     setShow: (show: boolean) => void
-    cardsPackId: string
-    cardId: string
+    cardsPack_id: string
+    cardsId: string
 }
 
 type FormikErrorType = {
@@ -48,7 +48,7 @@ export const UpdateModalCards = (props: UpdateCardsModalType ) => {
         onSubmit: values => {
 
             props.setShow(false)
-            dispatch(upDateCardThunk(values.answer, values.question))
+            dispatch(upDateCardThunk(cardsId,cardsPack_id,values.answer, values.question))
             formik.resetForm();
         },
     })

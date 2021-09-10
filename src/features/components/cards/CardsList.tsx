@@ -85,7 +85,7 @@ export const CardsList = () => {
             {showUpdateCards &&
             <UpdateModalCards
                 show={showUpdateCards} setShow={setShowUpdateCards}
-                cardId={currentCard[0]} cardsPackId={currentCard[1]}
+                cardsId={currentCard[0]} cardsPack_id={currentCard[1]}
             />}
         </TableContainer>
     );
