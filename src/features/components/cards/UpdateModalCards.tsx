@@ -48,7 +48,7 @@ export const UpdateModalCards = (props: UpdateCardsModalType ) => {
         onSubmit: values => {
 
             props.setShow(false)
-            dispatch(upDateCardThunk(cardsId,cardsPack_id,values.answer, values.question))
+            dispatch(upDateCardThunk(props.cardsId,props.cardsPack_id,values.answer, values.question))
             formik.resetForm();
         },
     })
