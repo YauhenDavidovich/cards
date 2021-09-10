@@ -37,6 +37,7 @@ type InitialStateType = typeof initialState
 
 export const packsReducer = (state = initialState, action: PacksCardsActionType): InitialStateType => {
 
+
     switch (action.type) {
 
         case "packs/SET-PACKS":
