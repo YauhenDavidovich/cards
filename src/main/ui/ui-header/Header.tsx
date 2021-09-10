@@ -12,9 +12,18 @@ const Header = () => {
     const isLoggedIn = useSelector<AppStateType, boolean>(state => state.login.isAuth);
     const history = useHistory();
     const dispatch = useDispatch();
+
     async function handleLogout() {
-        dispatch(logOut());
-        history.push("/login");
+
+        // @ts-ignore
+        dispatch(logOut()).then(
+            (res: any) => {
+                console.log(res)
+                debugger
+                history.push("/login");
+            }
+        )
+
     }
 
 
@@ -33,7 +42,8 @@ const Header = () => {
                     <MenuNavLink to="/profile">Profile</MenuNavLink>
                     <MenuNavLink to="/packslist">Packs</MenuNavLink>
                     <MenuNavLink to="/cards">Cards</MenuNavLink>
-                    <Button as={NavLink} to='/signup' color={"blue"} onClick={()=> history.push('/signup')}>Sign up</Button>
+                    <Button as={NavLink} to='/signup' color={"blue"} onClick={() => history.push('/signup')}>Sign
+                        up</Button>
                     {isLoggedIn
                         ? <Button color={"blue"} onClick={handleLogout}>Log out</Button>
                         : <Button as={NavLink} to='/login' color={"blue"} onClick={handleLogout}>Log in</Button>}

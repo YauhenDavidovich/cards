@@ -44,6 +44,7 @@ export const Login = () => {
         },
     })
 
+    console.log("login"+ isLoggedIn)
     if (isLoggedIn) {
         return <Redirect to={'/profile'}/>
     }

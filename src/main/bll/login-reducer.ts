@@ -2,6 +2,7 @@ import {authAPI, InitialStateType, LogInType} from "../dll/api";
 import {Dispatch} from "redux";
 import {setAppStatus, SetAppStatusType} from "./app-reducer";
 import {setErrorMessage, setForgotStatus} from "./forgotReducer";
+import {useHistory} from "react-router-dom";
 
 let initialState = {
     email: "",
@@ -20,7 +21,6 @@ export const loginReducer = (state = initialState, action: ActionsTypeLogin): In
                 email: action.email,
                 idUser: action._id,
                 isAuth: action.isAuth,
-
             };
         case "SET_IS_LOGGED_IN": {
             return {...state, isAuth: action.isLoggedIn}
@@ -61,11 +61,13 @@ export const loginTC = (loginInfo: LogInType) => (dispatch: Dispatch<ActionsType
 
 export const logOut = () => (dispatch: Dispatch) => {
     dispatch(setAppStatus("loading"))
-    authAPI.logout()
-        .then(() => {
+
+    return authAPI.logout()
+        .then((res) => {
             dispatch(setIsLoggedIn(false))
             dispatch(setAuthUserData("", "",false))
             dispatch(setAppStatus("succeeded"))
+            return res
         })
         .catch(error => {
             dispatch(setErrorMessage(error.message ? error.message :"Network error occurred!"));

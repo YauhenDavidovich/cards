@@ -8,7 +8,6 @@ import Grid from "@material-ui/core/Grid";
 
 const ProfileInfo = () => {
     const profileData = useSelector<AppStateType, LoginInitialStateType>(state => state.login);
-    console.log(profileData)
     return (
         <Grid container spacing={3}  direction={'column'} justifyContent={"center"} alignItems="center">
             <Grid item>Email: {profileData.email}</Grid>
