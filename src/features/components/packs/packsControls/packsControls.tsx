@@ -14,9 +14,6 @@ export const PacksControls = () => {
     const [value, setValue] = useState([0, 10]);
     const [min, max] = [value[0], value[1]]
 
-    // useEffect(() => {
-    //
-    // }, [value])
     const handleChange = (event: any, newValue: any) => {
         setValue(newValue);
         dispatch(getPacks({min:min, max: max}))
@@ -30,7 +27,6 @@ export const PacksControls = () => {
             backgroundColor: 'white',
             marginLeft: 20,
             marginRight: 20,
-
         }}>
             <Grid container direction={"column"}>
                 <Grid item xs direction={"row"}>
@@ -57,7 +53,7 @@ export const PacksControls = () => {
                             valueLabelDisplay="on"
                             aria-labelledby="range-slider"
                             min={3}
-                            max={9}
+                            max={10}
                         />
                     </Grid>
                 </Grid>

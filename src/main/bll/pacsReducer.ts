@@ -1,4 +1,4 @@
-import {cardsPacksApi, PacksRequestType, PacksResponseType, PackType} from "../dll/cardsPacksApi";
+import {cardsPacksApi, PacksRequestType, PacksResponseType, PackType, ParamsUpdatePack} from "../dll/cardsPacksApi";
 import {AppStateType, InferActionTypes} from "./store";
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {
@@ -51,6 +51,11 @@ export const packsReducer = (state = initialState, action: PacksCardsActionType)
                 ...state,
                 cardPacks: state.cardPacks.filter((cardPack) => cardPack._id === action.id)
             }
+        case "packs/DELETE-PACK":
+            return {
+                ...state,
+                cardPacks: state.cardPacks.filter((cardPack) => cardPack._id === action.id)
+            }
         case "packs/ADD-PACK":
             const newPack: PackType = {
                 _id: "",
@@ -86,6 +91,7 @@ export const actions = {
     setPacks: (packs: PacksResponseType) => ({type: "packs/SET-PACKS", packs} as const),
     deletePacks: (id: string) => ({type: "packs/DELETE-PACK", id} as const),
     addPack: (packName: string) => ({type: "packs/ADD-PACK", packName} as const),
+    updatePack: (packId: string, name: string) => ({type: "packs/UPDATE-PACK", packId, name} as const),
     setIsLoading: (status: RequestStatusType) => ({type: "path/SET_IS_LOADING", status} as const)
 }
 
@@ -142,6 +148,23 @@ export const addPack = (packName: string) => (dispatch: ThunkActionType) => {
         })
         .catch(error => {
             dispatch(setErrorMessage(error.message ? error.message : "Network error occurred!"));
+        })
+}
+
+export const updatePack = (updatePackParams: ParamsUpdatePack, mePacks: boolean) => (dispatch: ThunkActionType, getState: () => AppStateType) => {
+    const userId = getState().login.idUser
+    console.log('userId: ', userId)
+    const test = mePacks ? userId : ''
+    console.log('test: ', test)
+    dispatch(actions.setIsLoading("loading"))
+    cardsPacksApi.updatePack(updatePackParams)
+        .then(() => {
+            dispatch(getPacks({user_id: test}))
+            dispatch(actions.setIsLoading("succeeded"))
+        })
+        .catch(error => {
+            dispatch(setErrorMessage(error.message ? error.message :"Network error occurred!"));
+            dispatch(setForgotStatus("failed"))
         })
 }
 

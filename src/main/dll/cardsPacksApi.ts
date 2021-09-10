@@ -63,6 +63,11 @@ export type RequestAddPackType = {
     }
 }
 
+export interface ParamsUpdatePack {
+    _id: string
+    name: string
+}
+
 export const cardsPacksApi = {
     getPacks(params: PacksRequestType) {
         return instanceRemote.get<PacksResponseType>('cards/pack', {
@@ -75,8 +80,8 @@ export const cardsPacksApi = {
     deletePack(packId: string) {
         return instanceRemote.delete<PacksResponseType>('cards/pack', {params: {id: packId}})
     },
-    updatePack(packId: string, name: string) {
-        return instanceRemote.put<PacksResponseType>('cards/pack', {packId, name})
+    updatePack(params: ParamsUpdatePack) {
+        return instanceRemote.put<PacksResponseType>('cards/pack', {cardsPack:{...params}})
     }
 }
 
