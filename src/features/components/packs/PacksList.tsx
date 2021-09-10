@@ -20,8 +20,6 @@ export const PacksContainer = () => {
         <Grid container spacing={2} direction={"column"}>
             <Grid item xs ><AddPack/></Grid>
             <Grid item xs ><PacksTable/></Grid>
-
-
         </Grid>
     )
 }

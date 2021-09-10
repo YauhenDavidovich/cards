@@ -1,6 +1,6 @@
 import React, {forwardRef, useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {deletePack, getPacks} from "../../../main/bll/pacsReducer";
+import {deletePack, getPacks, updatePack} from "../../../main/bll/pacsReducer";
 import {AppStateType} from "../../../main/bll/store";
 import {H3} from "../../../main/ui/commonStyle";
 import MaterialTable from "material-table";
@@ -28,7 +28,8 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import {Icons} from 'material-table';
-import Modal from "./modalPacks/Modal";
+import {createStyles, makeStyles, Theme} from "@material-ui/core";
+import Modal from '@material-ui/core/Modal';
 
 const tableIcons: Icons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref}/>),
@@ -63,14 +64,14 @@ export const PacksTable = () => {
     }, [dispatch])
 
     return (
-            <>
-                {cardPacks!.length === 0 ? <H3>This user has no packs.</H3>
-                    :
-                    <TablePacks cardPacks={cardPacks}/>
-
-                }
-            </>
-    )}
+        <>
+            {cardPacks!.length === 0 ? <H3>This user has no packs.</H3>
+                :
+                <TablePacks cardPacks={cardPacks}/>
+            }
+        </>
+    )
+}
 
 
 export type TablePacksPropsType = {
@@ -84,10 +85,41 @@ export const TablePacks: React.FC<TablePacksPropsType> = ({cardPacks}) => {
     const routeChange = (packId: string) => {
         let path = '/cards/' + packId
         history.push(path);
-
     }
+
+    //modal window
+
+    const classes = useStyles();
+    // getModalStyle is not a pure function, we roll the style only on the first render
+    const [modalStyle] = React.useState(getModalStyle);
+    const [open, setOpen] = React.useState(false);
+
+
+
+    const handleOpen = (_id: string, name: string) => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+let _id = "";
+    const body = (
+        <div style={modalStyle} className={classes.paper}>
+            <h2 id="simple-modal-title">Text in a modal</h2>
+            <p id="simple-modal-description">
+                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            </p>
+            <button type="button" onClick={()=>dispatch(updatePack({_id: _id, name: "name"}, true))}>
+                Open Modal
+            </button>
+        </div>
+    );
+
+
+
     return (
-        <div >
+        <div>
             {/*<Modal height={300} width={300} show={true}/>*/}
             <MaterialTable
                 icons={tableIcons}
@@ -112,12 +144,13 @@ export const TablePacks: React.FC<TablePacksPropsType> = ({cardPacks}) => {
                         title: "Delete pack",
                         field: "internal_action",
                         render: (rowData) =>
+
+
                             rowData && (
                                 <IconButton
                                     color="secondary"
                                     onClick={
                                         () => {
-                                            console.log(rowData._id)
                                             dispatch(deletePack(rowData._id, true))
                                         }
                                     }
@@ -133,9 +166,8 @@ export const TablePacks: React.FC<TablePacksPropsType> = ({cardPacks}) => {
                             rowData && (
                                 <IconButton
                                     color="secondary"
-                                    // onClick={console.log("delete")}
+                                    onClick={() => handleOpen(rowData._id, "name")}
                                 >
-
                                     <UpdateIcon/>
                                 </IconButton>
                             )
@@ -146,3 +178,33 @@ export const TablePacks: React.FC<TablePacksPropsType> = ({cardPacks}) => {
         </div>
     )
 }
+
+
+function rand() {
+    return Math.round(Math.random() * 20) - 10;
+}
+
+function getModalStyle() {
+    const top = 50 + rand();
+    const left = 50 + rand();
+
+    return {
+        top: `${top}%`,
+        left: `${left}%`,
+        transform: `translate(-${top}%, -${left}%)`,
+    };
+}
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        paper: {
+            position: 'absolute',
+            width: 400,
+            backgroundColor: theme.palette.background.paper,
+            border: '2px solid #000',
+            boxShadow: theme.shadows[5],
+            padding: theme.spacing(2, 4, 3),
+        },
+    }),
+);
+
